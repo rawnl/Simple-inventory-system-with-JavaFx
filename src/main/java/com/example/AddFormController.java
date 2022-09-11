@@ -10,21 +10,37 @@ import com.example.model.Article;
 import com.example.model.Category;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
 import com.jfoenix.controls.JFXTextField;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.StringConverter;
 
 public class AddFormController implements Initializable{
     
     //@FXML private Label error_msg;
 
+	@FXML private StackPane stackPane;
+	@FXML private AnchorPane mainAnchorPane;
     @FXML private JFXTextField barCodeField;
     @FXML private JFXTextField nameField;
     @FXML private JFXComboBox<Category> categoryField;
@@ -37,11 +53,13 @@ public class AddFormController implements Initializable{
     @FXML private JFXButton addBtn;
     @FXML private JFXButton cancelBtn;
 
-    //private ArrayList<Integer,String> newCategory = new ArrayList<>();
+	@FXML private Label barcode_field_msg;
+	@FXML private Label name_field_msg;
+	@FXML private Label price_field_msg;
+	@FXML private Label quantity_field_msg;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-        // init categories list --> use of ComboBox
 		initCategories();
 
 		Pattern validEditingState = Pattern.compile("-?(([1-9][0-9]*)|0)?(\\.[0-9]*)?");
@@ -56,7 +74,6 @@ public class AddFormController implements Initializable{
 		};
 
 		StringConverter<Double> converter = new StringConverter<Double>() {
-
 			@Override
 			public Double fromString(String s) {
 				if (s.isEmpty() || "-".equals(s) || ".".equals(s) || "-.".equals(s)) {
@@ -80,7 +97,6 @@ public class AddFormController implements Initializable{
 	
     }
 	
-	//
 	private void initCategories() {
 		DataManager dataManager = new DataManager();
 	
@@ -102,32 +118,18 @@ public class AddFormController implements Initializable{
 				return categoryField.getItems().stream().filter(ap -> 
 					ap.getName().equals(string)).findFirst().orElse(null);
 			}
-			
 		});
-
-		categoryField.valueProperty().addListener((obs, oldval, newval) -> {
-			if(newval != null)
-				System.out.println("Selected airport: " + newval.getName() 
-					+ ". ID: " + newval.getId());
-		});
-	
 	}
 	
-
-	//ajouter les autres champs
+	// add options : quit or add another 
 	@FXML 
 	public void addOnAction(ActionEvent event) {
-		System.out.println("addOnAction ... ");
 		if(validateForm()) {
-			System.out.println("validForm true ... ");
-
 			DataManager dataManager = new DataManager();
 			
 			String barcode = barCodeField.getText();
 			String name = nameField.getText();
-			
-			System.out.println("selected cat id : "+categoryField.valueProperty().get().getId());
-			
+						
 			int category = categoryField.valueProperty().get().getId();
 			String brand = brandField.getText();
 			String model = modelField.getText();
@@ -145,55 +147,64 @@ public class AddFormController implements Initializable{
 			article.setQuantity(quantity);
 			
 			if(dataManager.addArticle(article)) {
+				displayMessage(AlertType.INFORMATION, "Succes", "Opération effectuée avec succès.");
 				//displayMessage("success","Opération effectuée avec succès.");
-				System.out.println("succes");
+				mainAnchorPane.getScene().getWindow().hide();	
+				Stage stage = (Stage) mainAnchorPane.getScene().getWindow();
+				stage.getOnCloseRequest().handle(new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
 			}else {
-				System.out.println("echec");			
-				//displayMessage("echec","Echec d'ajout !\nVeuillez vérifier que les informations fournies sont correctes et non pas dupliquées.");
+				displayMessage(AlertType.ERROR, "Echec", "Opération echouée !\nVeuillez vérifier que les informations fournies sont correctes et non pas dupliquées.");
+				//displayMessage("echec","Echec d'ajout !\nVeuillez vérifier que les informations fournies sont \ncorrectes et non pas dupliquées.");
 			}
 		}else {
-			System.out.println("validForm false ... ");
-			//addListeners();
+			addListeners();
 			if(validTextField(barCodeField) == false ) {
-				//barcode_field_msg.setText("Ce champs est obligatoire. Veuillez le remplir");
-				System.out.println("barcode error");
+				barcode_field_msg.setText("Ce champs est obligatoire.");
 			}
 			if(validTextField(nameField) == false) {
-				//name_field_msg.setText("Ce champs est obligatoire. Veuillez le remplir");
-				System.out.println("name error");					
+				name_field_msg.setText("Ce champs est obligatoire.");
 			}
 			if(validTextField(priceField) == false ) {
-				//price_field_msg.setText("Ce champs est obligatoire. Veuillez le remplir");
-				System.out.println("price error");
+				price_field_msg.setText("Ce champs est obligatoire.");
 			}
 			if(validTextField(quantityField) == false ) {
-				//quantity_field_msg.setText("Ce champs est obligatoire. Veuillez le remplir");
-				System.out.println("quantity error");
+				quantity_field_msg.setText("Ce champs est obligatoire.");
 			}
 		}
 	}
 
-/* 
-    public void displayMessage(String msgType, String msg) {
+	public void displayMessage(AlertType alertType, String title, String msg) {
+		Alert alert = new Alert(alertType);
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(msg);
+		alert.showAndWait();
+	}
+	
+	//to get rid of
+	public void displayMessage(String msgType, String msg) {
 		JFXDialogLayout dialogLayout = new JFXDialogLayout();
 		
 		JFXDialog dialog = new JFXDialog(stackPane, dialogLayout, JFXDialog.DialogTransition.TOP);
 		dialog.setOverlayClose(false);
 		
 		JFXButton okBtn = new JFXButton("OK");
-		okBtn.setStyle("-fx-background-color: #C90202; -fx-border-radius: 1em; -fx-text-fill: white ;");
+		okBtn.setStyle("-fx-background-color:  #708090; -fx-border-radius: 1em; -fx-text-fill: white ;");
 		okBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, (MouseEvent mouseEvent)->{
 			dialog.close();
+			/* 
 			if(msgType == "success") {
-				closeBtn.fire();
+				//closeBtn.fire();
+				cancelBtn.getScene().getWindow().hide();
 			}
+			*/
 		});
 		
 		dialogLayout.setBody(new Text(msg));
 		dialogLayout.setActions(okBtn);
 		dialog.show();
+
 	}
-*/
 
 	public boolean validateForm() {
 		boolean result = false; 
@@ -205,7 +216,6 @@ public class AddFormController implements Initializable{
 		return result;
 	}
 
-
 	public boolean validTextField(JFXTextField textField) {
 		boolean result = false ;
 		if(textField.getText() != null && textField.getText().isEmpty() == false) {
@@ -214,27 +224,24 @@ public class AddFormController implements Initializable{
 		return result;
 	}
 
-/* 
 	public void addListeners() {
 		ChangeListener<Boolean> changeEvent = new ChangeListener<Boolean>() {
 			@Override
 		    public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue)
 		    {
-		        cage_number_msg.setText("");
-				birth_date_msg.setText("");
-				MB_msg.setText("");
-				DI_msg.setText("");
-				DMB_msg.setText("");	        
+		        barcode_field_msg.setText("");
+				name_field_msg.setText("");
+				price_field_msg.setText("");
+				quantity_field_msg.setText("");      
 		    }
 		};
 		
-		cage_number_field.focusedProperty().addListener(changeEvent);
-		birth_date_field.focusedProperty().addListener(changeEvent);
-		MB_field.focusedProperty().addListener(changeEvent);
-		DI_field.focusedProperty().addListener(changeEvent);
-		DMB_field.focusedProperty().addListener(changeEvent);
+		barcode_field_msg.focusedProperty().addListener(changeEvent);
+		name_field_msg.focusedProperty().addListener(changeEvent);
+		price_field_msg.focusedProperty().addListener(changeEvent);
+		quantity_field_msg.focusedProperty().addListener(changeEvent);
+
 	}
-*/
 
 /*
     @FXML
