@@ -7,13 +7,17 @@ import java.util.regex.Pattern;
 
 import com.example.db.DataManager;
 import com.example.model.Article;
+import com.example.model.Category;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextFormatter;
 import javafx.util.StringConverter;
 
@@ -23,7 +27,7 @@ public class AddFormController implements Initializable{
 
     @FXML private JFXTextField barCodeField;
     @FXML private JFXTextField nameField;
-    @FXML private JFXComboBox categoryField;
+    @FXML private JFXComboBox<Category> categoryField;
     @FXML private JFXTextField brandField;
     @FXML private JFXTextField modelField;
     @FXML private JFXTextField priceField;
@@ -38,11 +42,7 @@ public class AddFormController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
         // init categories list --> use of ComboBox
-		
-		/* 
-		priceField.setTextFormatter(new TextFormatter<>(change ->
-        (change.getControlNewText().matches("([1-9][0-9]*.[0-9]*?")) ? change : null));
-		*/
+		initCategories();
 
 		Pattern validEditingState = Pattern.compile("-?(([1-9][0-9]*)|0)?(\\.[0-9]*)?");
 
@@ -80,6 +80,36 @@ public class AddFormController implements Initializable{
 	
     }
 	
+	//
+	private void initCategories() {
+		DataManager dataManager = new DataManager();
+	
+		ObservableList<Category> categoriesObsList = FXCollections.observableList(dataManager.getCategories());
+		categoryField.setItems(categoriesObsList);
+		/*  
+		categoryField.setConverter(new StringConverter<Category>() {
+
+			@Override
+			public String toString(Category category) {	
+				return category.getName();	
+			}
+		
+			@Override
+			public Category fromString(String string) {
+				return categoryField.getItems().stream().filter(ap -> 
+					ap.getName().equals(string)).findFirst().orElse(null);
+			}
+			
+		});
+
+		categoryField.valueProperty().addListener((obs, oldval, newval) -> {
+			if(newval != null)
+				System.out.println("Selected airport: " + newval.getName() 
+					+ ". ID: " + newval.getId());
+		});
+	*/
+	}
+	
 
 	//ajouter les autres champs
 	@FXML 
@@ -87,8 +117,17 @@ public class AddFormController implements Initializable{
 		System.out.println("addOnAction ... ");
 		if(validateForm()) {
 			System.out.println("validForm true ... ");
+
+			DataManager dataManager = new DataManager();
+			
 			String barcode = barCodeField.getText();
 			String name = nameField.getText();
+			
+			System.out.println("selected cat id : "+categoryField.valueProperty().get().getId());
+			
+			int category = categoryField.valueProperty().get().getId();
+			String brand = brandField.getText();
+			String model = modelField.getText();
 			double price = Double.parseDouble(priceField.getText());
 			int quantity = Integer.parseInt(quantityField.getText());
 
@@ -96,10 +135,11 @@ public class AddFormController implements Initializable{
 			
 			article.setBarcode(barcode);
 			article.setArticleName(name);
+			article.setCategory(dataManager.getCategory(category));
+			article.setBrand(brand);
+			article.setModel(model);
 			article.setPrice(price);
 			article.setQuantity(quantity);
-			
-			DataManager dataManager = new DataManager();
 			
 			if(dataManager.addArticle(article)) {
 				//displayMessage("success","Opération effectuée avec succès.");

@@ -9,6 +9,7 @@ import java.util.function.Predicate;
 
 import com.example.db.DataManager;
 import com.example.model.Article;
+import com.example.model.Category;
 import com.example.model.User;
 
 import javafx.collections.FXCollections;
@@ -50,7 +51,7 @@ import javafx.util.Callback;
 
 public class HomeController implements Initializable{
 
-   @FXML private StackPane stackPane;
+   	@FXML private StackPane stackPane;
 	@FXML private AnchorPane mainAnchorPane;
    
 	@FXML private GridPane dashboardPane;
@@ -76,8 +77,8 @@ public class HomeController implements Initializable{
 	@FXML private TableView<Article> tableView;
 	@FXML private TableColumn <Article, Integer> id;
 	@FXML private TableColumn <Article, String> articleName;
-   @FXML private TableColumn <Article, String> barcode;
-	@FXML private TableColumn <Article, String> category;
+   	@FXML private TableColumn <Article, String> barcode;
+	@FXML private TableColumn <Article, Category> category;
 	@FXML private TableColumn <Article, String> brand; 
 	@FXML private TableColumn <Article, String> model;
 	@FXML private TableColumn <Article, Double> price;
@@ -132,11 +133,32 @@ public class HomeController implements Initializable{
 	
 	}
 	
+	// fix the category column
 	public void initTableView() {
 		id.setCellValueFactory(new PropertyValueFactory<Article,Integer>("id"));
 		articleName.setCellValueFactory(new PropertyValueFactory<Article,String>("articleName"));
 		barcode.setCellValueFactory(new PropertyValueFactory<Article,String>("barcode"));
-		category.setCellValueFactory(new PropertyValueFactory<Article,String>("category"));
+		category.setCellValueFactory(new PropertyValueFactory<Article,Category>("category"));
+		/* 
+		category.setCellFactory(new Callback<TableColumn<Article,Category>, TableCell<Article,Category>>() {
+ 
+			@Override
+			public TableCell<Article,Category> call(TableColumn<Article,Category> param) {
+				return new TableCell<Article,Category>(){
+					@Override
+					protected void updateItem(Category item, boolean empty){
+						if(item != null){
+							System.out.println(item);
+							setText(item.getName());
+						}else{
+							System.out.println(item);
+						}
+
+					}
+				};
+			}
+		});
+		*/
 		brand.setCellValueFactory(new PropertyValueFactory<Article,String>("brand"));
 		model.setCellValueFactory(new PropertyValueFactory<Article,String>("model"));
 		price.setCellValueFactory(new PropertyValueFactory<Article,Double>("price"));
@@ -211,7 +233,7 @@ public class HomeController implements Initializable{
 						return true;
 					}else if(a.getBarcode() != null && a.getBarcode().contains(newValue)){
 						return true;
-					}else if(a.getCategory().contains(newValue) ){
+					}else if(a.getCategory().getName().contains(newValue) ){
 						return true;
 					}else if(a.getBrand().contains(newValue)){
 						return true;

@@ -4,7 +4,7 @@ public class Article {
     private int id;
     private String barcode;
     private String articleName;
-    private String category;
+    private Category category;
     private String brand;
     private String model;
     private double price;
@@ -14,7 +14,7 @@ public class Article {
         super();
     }
     
-    public Article(int id, String barcode, String articleName,String category, String brand,String model, double price, int quantity) {
+    public Article(int id, String barcode, String articleName,Category category, String brand,String model, double price, int quantity) {
         this.id = id;
         this.barcode = barcode;
         this.articleName = articleName;
@@ -44,11 +44,11 @@ public class Article {
         this.articleName = articleName;
     }
     
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
