@@ -86,12 +86,15 @@ public class AddFormController implements Initializable{
 	
 		ObservableList<Category> categoriesObsList = FXCollections.observableList(dataManager.getCategories());
 		categoryField.setItems(categoriesObsList);
-		/*  
+		
 		categoryField.setConverter(new StringConverter<Category>() {
 
 			@Override
 			public String toString(Category category) {	
-				return category.getName();	
+				if (category == null) {
+                    return null;
+                }
+				return category.getName().toString();
 			}
 		
 			@Override
@@ -107,7 +110,7 @@ public class AddFormController implements Initializable{
 				System.out.println("Selected airport: " + newval.getName() 
 					+ ". ID: " + newval.getId());
 		});
-	*/
+	
 	}
 	
 
