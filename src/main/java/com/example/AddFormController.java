@@ -121,7 +121,7 @@ public class AddFormController implements Initializable{
 		});
 	}
 	
-	// add options : quit or add another 
+	// add options : quit or add another & listeners to other fields if required
 	@FXML 
 	public void addOnAction(ActionEvent event) {
 		if(validateForm()) {
@@ -164,7 +164,7 @@ public class AddFormController implements Initializable{
 			if(validTextField(nameField) == false) {
 				name_field_msg.setText("Ce champs est obligatoire.");
 			}
-			if(validTextField(priceField) == false ) {
+			if(validTextField(priceField) == false) {
 				price_field_msg.setText("Ce champs est obligatoire.");
 			}
 			if(validTextField(quantityField) == false ) {
@@ -257,6 +257,5 @@ public class AddFormController implements Initializable{
 	public void cancelBtnOnAction(ActionEvent event) {
         cancelBtn.getScene().getWindow().hide();
 	}	
-
 
 }

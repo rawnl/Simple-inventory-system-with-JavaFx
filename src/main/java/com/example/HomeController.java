@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
@@ -26,6 +27,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
@@ -33,6 +35,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -43,6 +46,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -188,7 +192,12 @@ public class HomeController implements Initializable{
 						iconDelete.setStyle(" -fx-cursor: hand ; -fx-fill:#C90202;");
 						iconDelete.setOnMouseClicked((MouseEvent event) -> {       
 							article = tableView.getSelectionModel().getSelectedItem();
-							//displayDeleteDialog();
+							if(displayConfirmationBox(AlertType.CONFIRMATION, "Suppression", "Vous etes sur le point de supprimer cet article. Etes vous sur ?")){
+								DataManager dataManager = new DataManager();
+								dataManager.DeleteArticle(article.getId());
+								displayMessage(AlertType.INFORMATION, "Suppression", "Article supprimé avec succes");
+								UpdateTableView();
+							}
 						});
 					
 						ImageView iconEdit = new ImageView();
@@ -199,7 +208,7 @@ public class HomeController implements Initializable{
 						iconEdit.setStyle(" -fx-cursor: hand ; -fx-fill:#C90202; ");
 						iconEdit.setOnMouseClicked((MouseEvent event) -> {
 							article = tableView.getSelectionModel().getSelectedItem();
-							//displayEditForm(article);
+							displayEditForm(article);
 						});
 						HBox managebtn = new HBox(iconEdit, iconDelete); 
 						managebtn.setStyle("-fx-alignment:center");
@@ -261,7 +270,8 @@ public class HomeController implements Initializable{
 		return tableView;
 	}
 	
-	/* delete
+	// display delete dialog --> to get rid of
+	/* 
 	public void displayDeleteDialog(){
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("deleteDialog.fxml"));
 		Parent root;
@@ -286,9 +296,11 @@ public class HomeController implements Initializable{
 						DataManager dataManager = new DataManager();
 						if(dataManager.DeleteArticle(article.getId())){
 							UpdateTableView();
-							displayAlert("success","Opération effectuée avec succes.");
+							//displayAlert("success","Opération effectuée avec succes.");
+							System.out.println("**success");
 						}else{
-							displayAlert("alert","Une erreur c'est produite lors de la suppression de cet article.");
+							System.out.println("**echec");
+							//displayAlert("alert","Une erreur c'est produite lors de la suppression de cet article.");
 						}
 					}
 				}
@@ -297,25 +309,27 @@ public class HomeController implements Initializable{
 			e.printStackTrace();
 		}
 	}
-   */
-   	/* edit
-	public void displayEditForm(Animal animal){
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/editForm.fxml"));
+   	*/
+
+   	
+	public void displayEditForm(Article article){
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("editForm.fxml"));
 		Parent root;
 		try {
+			
 			root = (Parent) loader.load();
 			Stage stage = new Stage();
 			stage.setScene(new Scene(root));
+			
 			EditController editController = loader.getController();
-			editController.configureBackground();
-			editController.setAnimal(animal);
+
+			editController.setArticle(article);
 													
 			stage.initModality(Modality.WINDOW_MODAL); // APPLICATION_MODAL
-			Stage primaryStage = (Stage)(mainAnchorPane.getScene().getWindow()); 
-													
+			Stage primaryStage = (Stage)(mainAnchorPane.getScene().getWindow()); 										
 			stage.initOwner(primaryStage);
-			editController.fillForm();	
-			editController.setDynamic();		
+
+			editController.fillForm();		
 			stage.show();
 						
 			stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -327,9 +341,9 @@ public class HomeController implements Initializable{
 			e.printStackTrace();
 		}
 	}
-   */
+   
 	
-   /* display alert	
+   	/* display alert
   	public void displayAlert(String type, String message){
 	FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/alert.fxml"));
 	Parent root;
@@ -410,8 +424,29 @@ public class HomeController implements Initializable{
 		
 	}
    
+	public void displayMessage(AlertType alertType, String title, String msg) {
+		Alert alert = new Alert(alertType);
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(msg);
+		alert.showAndWait();
+	}
 	
-   	/* to test
+	public boolean displayConfirmationBox(AlertType alertType, String title, String msg){
+		Alert alert = new Alert(alertType);
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(msg);
+		//alert.showAndWait();
+		Optional<javafx.scene.control.ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+				return true;
+            }else{
+				return false;
+			}
+	}
+   	
+	/* to test
    @FXML
 	public void toDashboard() throws IOException {
 		currentTab.setText("Lappins EL BENNA / Accueil");

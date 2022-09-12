@@ -58,7 +58,7 @@ public class DataManager {
 		return user;
 	}
 	
-	// link to btn & test
+	// test if article already exists
 	 public boolean addArticle(Article article) {
 		boolean result = false;
 		getConnection();
@@ -102,13 +102,19 @@ public class DataManager {
 		boolean result = false;
 		getConnection();
 		try {
-			PreStat = connection.prepareStatement(" UPDATE articles SET barcode = ?, articleName = ?, price = ?, quantity = ? WHERE Id =  ? ; ");
+			PreStat = connection.prepareStatement(" UPDATE articles SET barcode = ?, articleName = ?, categoryId = ?, brand = ?, model = ?, price = ?, quantity = ? WHERE Id =  ? ; ");
 				
 			PreStat.setString(1,article.getBarcode());
 			PreStat.setString(2,article.getArticleName());
-			PreStat.setDouble(3,article.getPrice());
-			PreStat.setInt(4, article.getQuantity());
-			PreStat.setInt(5, article.getId());
+
+			PreStat.setInt(3, article.getCategory().getId());
+			PreStat.setString(4,article.getBrand());
+			PreStat.setString(5,article.getModel());
+
+
+			PreStat.setDouble(6,article.getPrice());
+			PreStat.setInt(7, article.getQuantity());
+			PreStat.setInt(8, article.getId());
 
 			if(PreStat.executeUpdate() >= 1){
 				result = true;
@@ -233,6 +239,7 @@ public class DataManager {
 		return categories;
 	}
 
+	
   /*   
 
 	public static void main(String [] args){
