@@ -2,6 +2,8 @@ package com.example.db;
 
 import com.example.model.Article;
 import com.example.model.Category;
+import com.example.model.Client;
+import com.example.model.Facture;
 import com.example.model.User;
 
 import java.sql.Connection;
@@ -192,7 +194,6 @@ public class DataManager {
 				//article.setCategory(getCategory(res.getInt("categoryId")));
 				article.setCategory(new Category(res.getInt("categoryId"), res.getString("categoryName")));
 				articles.add(article);
-				System.out.println(article.getId());
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -238,6 +239,30 @@ public class DataManager {
 		}
 		return categories;
 	}
+
+    public ArrayList<Facture> getFactures() {
+        ArrayList<Facture> factures = new ArrayList<Facture>() ;
+		getConnection();
+		try {
+			Stat = connection.createStatement();
+			res = Stat.executeQuery("select * from factures, clients, users where factures.clientId = clients.id and factures.userId = users.id ; ");
+			while(res.next()){
+				Facture facture = new Facture ();
+				facture.setNumber((res.getInt("factures.id")));
+				facture.setClient(new Client(res.getInt("clients.id"),res.getString("clients.name"),res.getString("clients.phone"),res.getString("clients.address")));
+				facture.setDate(res.getDate("factures.date"));
+				facture.setUser(new User(res.getInt("users.id"),res.getString("users.name"),res.getString("users.username"),res.getString("users.password")));
+				
+				factures.add(facture);
+				
+				System.out.println(facture.getNumber());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e);
+		}
+		return factures;
+    }
 
 	
   /*   

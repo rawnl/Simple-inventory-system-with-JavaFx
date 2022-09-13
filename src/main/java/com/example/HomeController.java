@@ -3,6 +3,7 @@ package com.example;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -11,6 +12,8 @@ import java.util.function.Predicate;
 import com.example.db.DataManager;
 import com.example.model.Article;
 import com.example.model.Category;
+import com.example.model.Client;
+import com.example.model.Facture;
 import com.example.model.User;
 
 import javafx.collections.FXCollections;
@@ -41,9 +44,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.control.ButtonType;
@@ -59,8 +66,8 @@ public class HomeController implements Initializable{
 	@FXML private AnchorPane mainAnchorPane;
    
 	@FXML private GridPane dashboardPane;
-	@FXML private GridPane statsPane;
-	@FXML private GridPane settingsPane;	
+	//@FXML private GridPane statsPane;
+	@FXML private GridPane facturesPane;	
 	
    	@FXML private Label currentTab;
 
@@ -69,9 +76,6 @@ public class HomeController implements Initializable{
 	
 	@FXML private Button homeBtn;
 	@FXML private ImageView homeIcon;
-	
-	@FXML private Button invoicesBtn;
-	@FXML private ImageView invoicesIcon;
 
 	@FXML private Button addBtn;
 	@FXML private ImageView addIcon;
@@ -95,20 +99,10 @@ public class HomeController implements Initializable{
 	private final static int rowsPerPage = 11 ;
 
 	private ObservableList<Article> obsList;
+	
 	private Article article;
 	private User user;
    
-	// to fix/update and test
-    @FXML
-    private void switchToFactures() throws IOException {
-       System.out.println("switching to factures .....");
-    }
-
-	// to fix/update and test
-    @FXML
-    private void switchToArticles() throws IOException {
-       System.out.println("switching to articles .....");
-    }
 
     @Override
 	public void initialize(URL arg0, ResourceBundle arg1){
@@ -143,30 +137,11 @@ public class HomeController implements Initializable{
 		articleName.setCellValueFactory(new PropertyValueFactory<Article,String>("articleName"));
 		barcode.setCellValueFactory(new PropertyValueFactory<Article,String>("barcode"));
 		category.setCellValueFactory(new PropertyValueFactory<Article,Category>("category"));
-		/* 
-		category.setCellFactory(new Callback<TableColumn<Article,Category>, TableCell<Article,Category>>() {
- 
-			@Override
-			public TableCell<Article,Category> call(TableColumn<Article,Category> param) {
-				return new TableCell<Article,Category>(){
-					@Override
-					protected void updateItem(Category item, boolean empty){
-						if(item != null){
-							System.out.println(item);
-							setText(item.getName());
-						}else{
-							System.out.println(item);
-						}
-
-					}
-				};
-			}
-		});
-		*/
 		brand.setCellValueFactory(new PropertyValueFactory<Article,String>("brand"));
 		model.setCellValueFactory(new PropertyValueFactory<Article,String>("model"));
 		price.setCellValueFactory(new PropertyValueFactory<Article,Double>("price"));
 		quantity.setCellValueFactory(new PropertyValueFactory<Article,Integer>("quantity"));
+		
 	}
 
 	public void initActionIcons(){
@@ -311,7 +286,6 @@ public class HomeController implements Initializable{
 	}
    	*/
 
-   	
 	public void displayEditForm(Article article){
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("editForm.fxml"));
 		Parent root;
@@ -341,7 +315,6 @@ public class HomeController implements Initializable{
 			e.printStackTrace();
 		}
 	}
-   
 	
    	/* display alert
   	public void displayAlert(String type, String message){
@@ -374,7 +347,6 @@ public class HomeController implements Initializable{
 }
 */
 
-   	// To test after fixing addArticle
 	public void UpdateTableView() {
 		DataManager dataManager = new DataManager();
 		ArrayList<Article> articles = new ArrayList<Article>();
@@ -446,37 +418,37 @@ public class HomeController implements Initializable{
 			}
 	}
    	
-	/* to test
+	// update total
    @FXML
 	public void toDashboard() throws IOException {
-		currentTab.setText("Lappins EL BENNA / Accueil");
+		currentTab.setText("Liste des articles");
 		dashboardPane.toFront();
 		dashboardPane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY,Insets.EMPTY)));
 		System.out.println("to dasshboard");
 	}
-   */
-	
-	/* to test
+   
+	/* 
 	@FXML
-	public void toStats() throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("../ui/stats.fxml"));
+	public void toFactures() throws IOException {
+		currentTab.setText("Liste des factures");
+		facturesPane.toFront();
+		facturesPane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY,Insets.EMPTY)));
+		System.out.println("to factures");
+	}
+	*/
+	
+	@FXML
+	public void toFactures() throws IOException {
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("invoices.fxml"));
 		AnchorPane pane = loader.load();
 
-		StatsController StatsController = loader.getController();
-		StatsController.setupUserInfo(getUser());
+		FacturesController facturesController = loader.getController();
+		facturesController.setupUserInfo(getUser());
 
 		mainAnchorPane.getChildren().clear();
         mainAnchorPane.getChildren().add(pane);
 	}
-   */
+   
 	
-   	/* to test 
-	@FXML
-	public void toSettings() throws IOException {
-		currentTab.setText("Lappins EL BENNA / Paramètres");
-		settingsPane.toFront();
-		settingsPane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY,Insets.EMPTY)));
-		System.out.println("to settings");
-	}*/
 
 }
