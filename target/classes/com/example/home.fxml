@@ -22,7 +22,7 @@
          <children>
             <AnchorPane prefHeight="498.0" prefWidth="844.0">
                <children>
-                  <Label fx:id="currentTab" alignment="CENTER" layoutX="270.0" layoutY="33.0" prefHeight="38.0" prefWidth="259.0">
+                  <Label fx:id="currentTab" layoutX="266.0" layoutY="48.0" prefHeight="38.0" prefWidth="259.0">
                      <font>
                         <Font size="30.0" />
                      </font>
@@ -67,7 +67,7 @@
                                           </ImageView>
                                        </graphic>
                                     </JFXButton>
-                                    <JFXTextField fx:id="search" focusColor="SLATEGRAY" layoutX="29.0" layoutY="22.0" onAction="#enableSearch" prefHeight="30.0" prefWidth="257.0" promptText="Recherche" AnchorPane.leftAnchor="29.0">
+                                    <JFXTextField fx:id="search" focusColor="SLATEGRAY" layoutX="10.0" layoutY="24.0" onAction="#enableSearch" prefHeight="30.0" prefWidth="257.0" promptText="Recherche" AnchorPane.leftAnchor="10.0">
                                        <font>
                                           <Font size="13.0" />
                                        </font>
@@ -116,9 +116,9 @@
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <AnchorPane layoutX="619.0" layoutY="33.0" prefHeight="75.0" prefWidth="257.0" style="-fx-background-color: black; -fx-background-radius: 1em;">
+                  <AnchorPane layoutX="619.0" layoutY="33.0" prefHeight="75.0" prefWidth="257.0" style="-fx-background-color: black; -fx-background-radius: 1em;" AnchorPane.rightAnchor="15.0">
                      <children>
-                        <Label fx:id="sommeTotale" alignment="CENTER" contentDisplay="CENTER" layoutX="93.0" layoutY="14.0" prefHeight="45.0" prefWidth="227.0" textAlignment="CENTER" textFill="#72ff13" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+                        <Label fx:id="todaysTotal" alignment="CENTER" contentDisplay="CENTER" layoutX="93.0" layoutY="14.0" prefHeight="45.0" prefWidth="227.0" textAlignment="CENTER" textFill="#72ff13" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
                            <font>
                               <Font name="System Bold" size="30.0" />
                            </font>

@@ -70,6 +70,7 @@ public class HomeController implements Initializable{
 	@FXML private GridPane facturesPane;	
 	
    	@FXML private Label currentTab;
+	@FXML private Label todaysTotal;
 
 	@FXML private Circle circle;
 	@FXML private Label username;
@@ -110,6 +111,7 @@ public class HomeController implements Initializable{
 		initTableView();
 		initActionIcons();
 		UpdateTableView();
+		updateTodaysTotal();
 		pagination.setPageFactory(this::createPage);
 		currentTab.setText("Liste des articles");
 	}
@@ -141,7 +143,7 @@ public class HomeController implements Initializable{
 		model.setCellValueFactory(new PropertyValueFactory<Article,String>("model"));
 		price.setCellValueFactory(new PropertyValueFactory<Article,Double>("price"));
 		quantity.setCellValueFactory(new PropertyValueFactory<Article,Integer>("quantity"));
-		
+
 	}
 
 	public void initActionIcons(){
@@ -418,8 +420,14 @@ public class HomeController implements Initializable{
 			}
 	}
    	
+	public void updateTodaysTotal(){
+		DataManager dataManager = new DataManager();
+		String totalDuJour =  Double.toString(dataManager.getTodaysTotal());
+		todaysTotal.setText(totalDuJour);
+	}
 	// update total
-   @FXML
+    
+	@FXML
 	public void toDashboard() throws IOException {
 		currentTab.setText("Liste des articles");
 		dashboardPane.toFront();

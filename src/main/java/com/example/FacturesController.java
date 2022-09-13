@@ -219,14 +219,24 @@ public class FacturesController implements Initializable{
 
     @FXML
 	public void toDashboard() throws IOException {
-		AnchorPane statPane = FXMLLoader.load(getClass().getResource("home.fxml"));
-		mainAnchorPane.getChildren().setAll(statPane);	
+		/*AnchorPane statPane = FXMLLoader.load(getClass().getResource("home.fxml"));
+		mainAnchorPane.getChildren().setAll(statPane);*/	
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("home.fxml"));
+		AnchorPane pane = loader.load();
+
+		HomeController HomeController = loader.getController();
+	    HomeController.setupUserInfo(getUser());
+
+		mainAnchorPane.getChildren().clear();
+        mainAnchorPane.getChildren().add(pane);
 	}
-	
+	 
 	@FXML
-	public void toFactures() throws IOException {
-		AnchorPane statPane = FXMLLoader.load(getClass().getResource("invoices.fxml"));
+	public void toFactures() throws IOException { 
+        AnchorPane statPane = FXMLLoader.load(getClass().getResource("invoices.fxml"));
 		mainAnchorPane.getChildren().setAll(statPane);	
+        
 	}
 
 	

@@ -7,6 +7,7 @@ import com.example.model.Facture;
 import com.example.model.User;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -264,7 +265,24 @@ public class DataManager {
 		return factures;
     }
 
-	
+	public double getTodaysTotal(){
+		double total = 0;
+		getConnection();
+		try {
+			PreStat = connection.prepareStatement(" select * from factures where date = ? ; ");
+			Date todaysDate = new Date(System.currentTimeMillis());
+			PreStat.setDate(1,todaysDate);
+			res = PreStat.executeQuery();
+			while(res.next()){
+				total = total + res.getDouble("total");
+				System.out.println(total);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println(e);
+		}
+		return total;
+	}
   /*   
 
 	public static void main(String [] args){
