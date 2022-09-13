@@ -39,6 +39,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -169,7 +170,7 @@ public class HomeController implements Initializable{
 						iconDelete.setStyle(" -fx-cursor: hand ; -fx-fill:#C90202;");
 						iconDelete.setOnMouseClicked((MouseEvent event) -> {       
 							article = tableView.getSelectionModel().getSelectedItem();
-							if(displayConfirmationBox(AlertType.CONFIRMATION, "Suppression", "Vous etes sur le point de supprimer cet article. Etes vous sur ?")){
+							if(displayConfirmationBox(AlertType.CONFIRMATION, "Suppression", "Vous êtes sur le point de supprimer cet article.\n Êtes-vous sûr?")){
 								DataManager dataManager = new DataManager();
 								dataManager.DeleteArticle(article.getId());
 								displayMessage(AlertType.INFORMATION, "Suppression", "Article supprimé avec succes");
@@ -407,13 +408,20 @@ public class HomeController implements Initializable{
 	}
 	
 	public boolean displayConfirmationBox(AlertType alertType, String title, String msg){
+		
 		Alert alert = new Alert(alertType);
+		
+		ButtonType yesBtn = new ButtonType("Oui", ButtonData.YES);
+		ButtonType noBtn = new ButtonType("Non", ButtonData.NO);
+		
+		alert.getButtonTypes().setAll(yesBtn, noBtn);
+
 		alert.setTitle(title);
 		alert.setHeaderText(null);
 		alert.setContentText(msg);
 		//alert.showAndWait();
 		Optional<javafx.scene.control.ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK){
+            if (result.get() == yesBtn ){
 				return true;
             }else{
 				return false;
@@ -457,6 +465,4 @@ public class HomeController implements Initializable{
         mainAnchorPane.getChildren().add(pane);
 	}
    
-	
-
 }
