@@ -28,7 +28,7 @@
 </VBox>
 -->
 
-<AnchorPane fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="525.0" prefWidth="884.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.FacturesController">
+<AnchorPane fx:id="mainAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.FacturesController">
    <children>
       <StackPane fx:id="stackPane" layoutX="-5.0" layoutY="-2.0" prefHeight="525.0" prefWidth="890.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="-5.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-2.0">
          <children>
@@ -39,7 +39,7 @@
                         <Font size="30.0" />
                      </font>
                   </Label>
-                  <StackPane fx:id="menuStackPane" layoutX="257.0" layoutY="110.0" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="257.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="110.0">
+                  <StackPane fx:id="menuStackPane" layoutX="284.0" layoutY="123.0" prefHeight="402.0" prefWidth="631.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="259.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="123.0">
                      <children>
                         <GridPane fx:id="facturesPane" layoutX="10.0" layoutY="10.0">
                            <columnConstraints>

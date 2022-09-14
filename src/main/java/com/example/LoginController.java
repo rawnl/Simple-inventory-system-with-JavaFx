@@ -55,15 +55,14 @@ public class LoginController {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("Home.fxml"));
 		Parent root = (Parent) loader.load();
 		Stage stage = new Stage();
-		stage.setMaximized(true);
+
 		stage.setScene(new Scene(root));
 		HomeController homeController = loader.getController();
 		
 		homeController.setupUserInfo(user);
-		//homeController.configureBackground();
 		homeController.enableSearch();
 		stage.show();
-		//homeController.setDynamic();
+
 		login.getScene().getWindow().hide();
 	}
 }

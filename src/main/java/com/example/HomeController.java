@@ -454,8 +454,8 @@ public class HomeController implements Initializable{
 	*/
 	
 	@FXML
-	public void toFactures() throws IOException {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("invoices.fxml"));
+	public void toFactures(ActionEvent event) throws IOException {
+		/*FXMLLoader loader = new FXMLLoader(getClass().getResource("invoices.fxml"));
 		AnchorPane pane = loader.load();
 
 		FacturesController facturesController = loader.getController();
@@ -463,6 +463,26 @@ public class HomeController implements Initializable{
 
 		mainAnchorPane.getChildren().clear();
         mainAnchorPane.getChildren().add(pane);
+
+		*/
+
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("invoices.fxml"));
+		Parent root = (Parent) loader.load();
+		
+
+		Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
+		
+		//stage.setMaximized(true);
+		//stage.setScene(new Scene(root));
+		FacturesController facturesController = loader.getController();
+		
+		facturesController.setupUserInfo(user);
+		facturesController.enableSearch();
+		stage.show();
+
+//		login.getScene().getWindow().hide();
 	}
    
 }

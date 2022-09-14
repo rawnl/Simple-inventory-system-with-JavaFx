@@ -17,10 +17,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
@@ -32,8 +35,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.Node;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 
 public class FacturesController implements Initializable{
 
@@ -81,7 +86,7 @@ public class FacturesController implements Initializable{
 		initActionIcons();
 		UpdateInvoicesTableView();
 		//invoicesPagination.setPageFactory(this::createPage);
-		currentTab.setText("Liste des articles");
+		currentTab.setText("Liste des factures");
     }
 
 	public void initIcons() {
@@ -218,10 +223,8 @@ public class FacturesController implements Initializable{
 	}
 
     @FXML
-	public void toDashboard() throws IOException {
-		/*AnchorPane statPane = FXMLLoader.load(getClass().getResource("home.fxml"));
-		mainAnchorPane.getChildren().setAll(statPane);*/	
-        
+	public void toDashboard(ActionEvent event) throws IOException {
+		/* 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("home.fxml"));
 		AnchorPane pane = loader.load();
 
@@ -230,6 +233,21 @@ public class FacturesController implements Initializable{
 
 		mainAnchorPane.getChildren().clear();
         mainAnchorPane.getChildren().add(pane);
+		*/
+
+
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("home.fxml"));
+		Parent root = (Parent) loader.load();
+		Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
+		
+		HomeController homeController = loader.getController();
+		homeController.setupUserInfo(user);
+		homeController.enableSearch();
+
+		stage.show();
+
 	}
 	 
 	@FXML
