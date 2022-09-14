@@ -299,12 +299,8 @@ public class DataManager {
 		}
 		return result;
     }
-  /*   
-
-	public static void main(String [] args){
-		DataManager manager = new DataManager();
-	}
-	
+  	
+	/* 
 	public static Map<String, Integer> countGroupBy(String date){
 		Map<String, Integer> myMap = null;
 		getConnection();
@@ -325,19 +321,8 @@ public class DataManager {
 		}
 		return myMap;
 	}
-/*	
+	/*	
 	public static void main(String [] args){
-		/*FileOutputStream file = loadImage(1);
-		if( file != null){
-			System.out.println(file.toString());
-		}else{
-			System.out.println("error");
-		}*/
-/*
-		LocalDate now = LocalDate.now();  
-		//System.out.println(now);
-		
-
 		Map<String, Integer> myMap = countGroupBy();
 		
 		for (Map.Entry<String, Integer> entry : myMap.entrySet()) {
