@@ -1,5 +1,6 @@
 package com.example;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.function.UnaryOperator;
@@ -19,9 +20,13 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
@@ -31,6 +36,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.StringConverter;
@@ -57,6 +63,10 @@ public class AddFormController implements Initializable{
 	@FXML private Label name_field_msg;
 	@FXML private Label price_field_msg;
 	@FXML private Label quantity_field_msg;
+
+
+	@FXML private JFXTextField newCategoryField;;
+
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -243,7 +253,59 @@ public class AddFormController implements Initializable{
 
 	}
 
-/*
+	public void displayNewCategoryForm() {
+		//FXMLLoader loader = new FXMLLoader(getClass().getResource("addCategory.fxml"));
+		//Parent root;
+		try {
+			
+			//root = (Parent) loader.load();
+			Stage stage = new Stage();
+			stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("addCategory.fxml"))));
+													
+			stage.initModality(Modality.WINDOW_MODAL); // APPLICATION_MODAL
+			Stage primaryStage = (Stage)(mainAnchorPane.getScene().getWindow()); 										
+			stage.initOwner(primaryStage);
+	
+			stage.show();
+						
+			stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+				public void handle(WindowEvent we) {
+					initCategories();
+				}
+			});
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//check if the category exists --> getCategory by name || from obslist
+	public void newCategoryBtnOnAction(ActionEvent event) {
+		if(validateForm()) {
+			DataManager dataManager = new DataManager();
+			
+			String categoryName = newCategoryField.getText();
+			
+			Category category = new Category();
+			category.setName(categoryName);
+			
+			if(dataManager.addCategory(category)) {
+				displayMessage(AlertType.INFORMATION, "Succes", "Opération effectuée avec succès.");
+				mainAnchorPane.getScene().getWindow().hide();	
+				Stage stage = (Stage) mainAnchorPane.getScene().getWindow();
+				stage.getOnCloseRequest().handle(new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
+				initCategories();
+			}else {
+				displayMessage(AlertType.ERROR, "Echec", "Opération echouée !\nVeuillez vérifier que les informations fournies sont correctes et non pas dupliquées.");
+			}
+		}else {
+			addListeners();
+			if(validTextField(newCategoryField) == false ) {
+				newCategoryField.setText("Ce champs est obligatoire.");
+			}
+		}
+	}
+
+	/*
     @FXML
 	public void closeBtnOnAction(ActionEvent event) {
 		closeBtn.getScene().getWindow().hide();	

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="184.0" prefWidth="451.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.CategoriesController">
+   <children>
+      <AnchorPane prefHeight="62.0" prefWidth="451.0" style="-fx-background-color: #708090;">
+         <children>
+            <Text fill="WHITE" layoutX="14.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nouvelle catégorie">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+      <JFXTextField fx:id="newCategoryField" focusColor="SLATEGRAY" layoutX="26.0" layoutY="102.0" prefHeight="25.0" prefWidth="297.0" />
+      <Label layoutX="26.0" layoutY="75.0" text="Nom de catégorie :" />
+      <JFXButton fx:id="newCategoryBtn" layoutX="344.0" layoutY="102.0" onAction="#newCategoryBtnOnAction" prefHeight="25.0" prefWidth="89.0" style="-fx-background-color: #708090;" text="Ajouter" textFill="WHITE">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </JFXButton>
+      <Label fx:id="new_category_field_msg" layoutX="26.0" layoutY="131.0" prefHeight="17.0" prefWidth="297.0" textFill="#d70909">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

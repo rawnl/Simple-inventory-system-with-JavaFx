@@ -224,6 +224,7 @@ public class FacturesController implements Initializable{
 
     @FXML
 	public void toDashboard(ActionEvent event) throws IOException {
+		
 		/* 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("home.fxml"));
 		AnchorPane pane = loader.load();
@@ -234,7 +235,6 @@ public class FacturesController implements Initializable{
 		mainAnchorPane.getChildren().clear();
         mainAnchorPane.getChildren().add(pane);
 		*/
-
 
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("home.fxml"));
 		Parent root = (Parent) loader.load();

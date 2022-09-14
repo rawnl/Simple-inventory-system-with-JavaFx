@@ -283,6 +283,22 @@ public class DataManager {
 		}
 		return total;
 	}
+
+	public boolean addCategory(Category category) {
+        boolean result = false;
+		getConnection();
+		try {
+			PreStat = connection.prepareStatement("insert into categories (categoryName) values (?) ; ");
+			PreStat.setString(1,category.getName());
+			
+			if(PreStat.executeUpdate() >= 1){
+				result = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+    }
   /*   
 
 	public static void main(String [] args){
