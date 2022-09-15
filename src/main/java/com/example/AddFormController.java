@@ -254,11 +254,8 @@ public class AddFormController implements Initializable{
 	}
 
 	public void displayNewCategoryForm() {
-		//FXMLLoader loader = new FXMLLoader(getClass().getResource("addCategory.fxml"));
-		//Parent root;
 		try {
 			
-			//root = (Parent) loader.load();
 			Stage stage = new Stage();
 			stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("addCategory.fxml"))));
 													

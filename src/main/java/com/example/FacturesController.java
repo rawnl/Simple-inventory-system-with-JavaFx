@@ -18,6 +18,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -38,7 +39,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.Node;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class FacturesController implements Initializable{
 
@@ -87,6 +90,8 @@ public class FacturesController implements Initializable{
 		UpdateInvoicesTableView();
 		//invoicesPagination.setPageFactory(this::createPage);
 		currentTab.setText("Liste des factures");
+
+		
     }
 
 	public void initIcons() {
@@ -256,6 +261,26 @@ public class FacturesController implements Initializable{
 		mainAnchorPane.getChildren().setAll(statPane);	
         
 	}
+
+    public void displayNewInvoice() throws IOException{
+		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("newInvoice.fxml"));
+		Parent root = (Parent) loader.load();
+		Stage stage = new Stage();
+		stage.setScene(new Scene(root));
+		newInvoiceController newInvoiceController = loader.getController();
+		
+		stage.initModality(Modality.WINDOW_MODAL); // APPLICATION_MODAL
+		Stage primaryStage = (Stage)(mainAnchorPane.getScene().getWindow()); 
+		stage.initOwner(primaryStage);
+		stage.show();
+		
+		stage.setOnCloseRequest((EventHandler<WindowEvent>) new EventHandler<WindowEvent>() {
+			public void handle(WindowEvent we) {
+				UpdateInvoicesTableView();
+			}
+		});
+    }
 
 	
     

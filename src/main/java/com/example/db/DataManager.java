@@ -132,7 +132,7 @@ public class DataManager {
 		Article article = null ;
 		getConnection();
 		try {
-			PreStat = connection.prepareStatement("select * from articles, where id = ? ; ");
+			PreStat = connection.prepareStatement("select * from articles where id = ? ; ");
 			PreStat.setInt(1,id);
 			res = PreStat.executeQuery();
 			if(res.next()){
@@ -140,11 +140,11 @@ public class DataManager {
 				article.setId(res.getInt("id"));
 				article.setBarcode(res.getString("barcode"));
 				article.setArticleName(res.getString("articleName"));
-				article.setCategory(getCategory(res.getInt("categoryId")));
 				article.setBrand(res.getString("brand"));
 				article.setModel(res.getString("model"));
 				article.setPrice(res.getDouble("price"));
 				article.setQuantity((res.getInt("quantity")));
+				article.setCategory(getCategory(res.getInt("categoryId")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -165,11 +165,11 @@ public class DataManager {
 				article.setId(res.getInt("id"));
 				article.setBarcode(res.getString("barcode"));
 				article.setArticleName(res.getString("articleName"));
-				article.setCategory(getCategory(res.getInt("categoryId")));
 				article.setBrand(res.getString("brand"));
 				article.setModel(res.getString("model"));
 				article.setPrice(res.getDouble("price"));
 				article.setQuantity((res.getInt("quantity")));
+				article.setCategory(getCategory(res.getInt("categoryId")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -177,6 +177,30 @@ public class DataManager {
 		return article;
 	}
 	
+	public Article getArticleByName(String articleName) {
+		Article article = null ;
+		getConnection();
+		try {
+			PreStat = connection.prepareStatement("select * from articles where articleName = ? ; ");
+			PreStat.setString(1,articleName);
+			res = PreStat.executeQuery();
+			if(res.next()){
+				article = new Article ();
+				article.setId(res.getInt("id"));
+				article.setBarcode(res.getString("barcode"));
+				article.setArticleName(res.getString("articleName"));
+				article.setBrand(res.getString("brand"));
+				article.setModel(res.getString("model"));
+				article.setPrice(res.getDouble("price"));
+				article.setQuantity((res.getInt("quantity")));
+				article.setCategory(getCategory(res.getInt("categoryId")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return article;
+	}
+
 	public ArrayList<Article> getArticles() {
 		ArrayList<Article> articles = new ArrayList<Article>() ;
 		getConnection();

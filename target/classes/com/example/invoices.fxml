@@ -51,7 +51,7 @@
                            <children>
                               <AnchorPane prefHeight="291.0" prefWidth="683.0">
                                  <children>
-                                       <JFXButton fx:id="addInvoiceBtn" layoutX="463.0" layoutY="19.0" prefHeight="35.0" prefWidth="109.0" style="-fx-background-color: #708090;" text="Ajouter" textFill="WHITE" AnchorPane.rightAnchor="15.0"> <!--onAction="#AddOnAction"-->
+                                       <JFXButton fx:id="addInvoiceBtn" layoutX="463.0" layoutY="19.0" onAction="#displayNewInvoice" prefHeight="35.0" prefWidth="139.0" style="-fx-background-color: #708090;" text="Nouvelle Facture" textFill="WHITE" AnchorPane.rightAnchor="15.0"> <!--onAction="#AddOnAction"-->
                                           <font>
                                              <Font size="13.0" />
                                           </font>
@@ -63,7 +63,7 @@
                                              </ImageView>
                                           </graphic>
                                        </JFXButton>
-                                       <ImageView fx:id="refreshInvoicesBtn" fitHeight="25.0" fitWidth="25.0" layoutX="476.0" layoutY="24.0" onMouseClicked="#UpdateInvoicesTableView" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;" AnchorPane.rightAnchor="132.0">
+                                       <ImageView fx:id="refreshInvoicesBtn" fitHeight="25.0" fitWidth="25.0" layoutX="445.0" layoutY="25.0" onMouseClicked="#UpdateInvoicesTableView" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;" AnchorPane.rightAnchor="161.0">
                                           <image>
                                              <Image url="@img/refresh-button.png" />
                                           </image>

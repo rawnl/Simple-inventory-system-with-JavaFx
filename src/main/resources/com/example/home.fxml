@@ -118,7 +118,7 @@
                   </AnchorPane>
                   <AnchorPane layoutX="619.0" layoutY="33.0" prefHeight="75.0" prefWidth="257.0" style="-fx-background-color: black; -fx-background-radius: 1em;" AnchorPane.rightAnchor="15.0">
                      <children>
-                        <Label fx:id="todaysTotal" alignment="CENTER" contentDisplay="CENTER" layoutX="93.0" layoutY="14.0" prefHeight="45.0" prefWidth="227.0" textAlignment="CENTER" textFill="#72ff13" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+                        <Label fx:id="todaysTotal" alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="93.0" layoutY="14.0" prefHeight="45.0" prefWidth="227.0" textAlignment="CENTER" textFill="#72ff13" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
                            <font>
                               <Font name="System Bold" size="30.0" />
                            </font>
