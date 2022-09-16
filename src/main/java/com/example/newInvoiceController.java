@@ -1,5 +1,6 @@
 package com.example;
 
+import java.lang.ref.Cleaner.Cleanable;
 import java.net.URL;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import javafx.util.StringConverter;
 
 public class newInvoiceController implements Initializable{
 
@@ -47,6 +49,7 @@ public class newInvoiceController implements Initializable{
     @FXML private ChoiceBox clientChoiceBox;
     
     @FXML private Label error_msg_label;
+    @FXML private Label client_msg_label;
 
     @FXML private TableView<Commande> invoiceTableView;
 	//@FXML private TableColumn <Commande, Integer> idArticle;
@@ -71,6 +74,7 @@ public class newInvoiceController implements Initializable{
         commandes = new ArrayList<Commande>();
         observableList = null;
         totalLabel.setText("0.0");
+        initClientChoiceBox();
         initTableView();
         /*  
         barcodeField.setOnKeyPressed(new EventHandler<KeyEvent>(){
@@ -123,9 +127,21 @@ public class newInvoiceController implements Initializable{
 
         quantityField.setTextFormatter(new TextFormatter<>(change ->
         (change.getControlNewText().matches("([1-9][0-9]*)?")) ? change : null));
-/* 
-        observableList.addListener(new ListChangeListener<Commande>(){
 
+        clientChoiceBox.setConverter(new StringConverter<Client>() {
+            @Override
+            public String toString(Client c) {
+                return c.getName();
+            }
+            @Override
+            // not used...
+            public Client fromString(String s) {
+                return null ;
+            }
+        });
+        
+        /* 
+        observableList.addListener(new ListChangeListener<Commande>(){
             @Override
             public void onChanged(javafx.collections.ListChangeListener.Change<? extends Commande> pChange) {
                 while(pChange.next()) {
@@ -137,7 +153,7 @@ public class newInvoiceController implements Initializable{
                 }
             }
         });
-*/        
+        */
     }
 
     public User getUser() {
@@ -148,6 +164,11 @@ public class newInvoiceController implements Initializable{
 		this.user = user;
 	}
 	
+    public void initClientChoiceBox(){
+        DataManager dataManager = new DataManager();
+        clientChoiceBox.getItems().setAll(dataManager.getClients());
+    }
+
     private void initTableView() {
         
         //idArticle.setCellValueFactory(new PropertyValueFactory<Commande,Integer>("idArticle"));
@@ -286,28 +307,37 @@ public class newInvoiceController implements Initializable{
     
     }
 
-    // set up the client
+    // set up the client + test if cmd tale is empty (or make a listener to the table )
     public void validBtnOnAction(){
-        DataManager dataManager = new DataManager();
-        Facture facture = new Facture();
-        //facture.setClient(new Client(dataManager.getClient(Integer.parseInt(clientChoiceBox.getValue()))));
         Client client = new Client();
-        client.setId(1);
-        facture.setClient(client);
-        facture.setUser(user);
-        facture.setDate(new Date(new java.util.Date().getTime()));
-        facture.setTotal(Double.parseDouble(totalLabel.getText()));
-        //int idFacture = dataManager.addFacture(facture).getNumber();
-        facture.setNumber(dataManager.addFacture(facture).getNumber());
+        client = (Client) clientChoiceBox.getValue();
+        
+        if(!commandes.isEmpty() && client != null ){
+            DataManager dataManager = new DataManager();
+            Facture facture = new Facture();
 
-        for (Commande commande : commandes) {
-            commande.setIdFacture(facture.getNumber());
-            if(dataManager.addCommande(commande)){
-                Article cmdArticle = dataManager.getArticleById(commande.getIdArticle());
-                cmdArticle.setQuantity(cmdArticle.getQuantity() - commande.getQuantity());
-                dataManager.EditArticle(cmdArticle);
+            facture.setClient(client);
+            facture.setUser(user);
+            facture.setDate(new Date(new java.util.Date().getTime()));
+            facture.setTotal(Double.parseDouble(totalLabel.getText()));
+            facture.setNumber(dataManager.addFacture(facture).getNumber());
+    
+            for (Commande commande : commandes) {
+                commande.setIdFacture(facture.getNumber());
+                if(dataManager.addCommande(commande)){
+                    Article cmdArticle = dataManager.getArticleById(commande.getIdArticle());
+                    cmdArticle.setQuantity(cmdArticle.getQuantity() - commande.getQuantity());
+                    dataManager.EditArticle(cmdArticle);
+                }
+            }    
+        }else{
+            if(client == null){
+                client_msg_label.setText("Veuillez sélectionner un client");
+            }else{
+                error_msg_label.setText("Veuillez insérer au moins une commande");
             }
         }
 
     }
+
 }

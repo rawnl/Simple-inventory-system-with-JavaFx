@@ -443,6 +443,7 @@ public class HomeController implements Initializable{
 	}
 	// update total
     
+	/* 
 	@FXML
 	public void toDashboard() throws IOException {
 		currentTab.setText("Liste des articles");
@@ -450,6 +451,7 @@ public class HomeController implements Initializable{
 		dashboardPane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY,Insets.EMPTY)));
 		System.out.println("to dasshboard");
 	}
+	*/
    
 	/* 
 	@FXML

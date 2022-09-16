@@ -45,7 +45,7 @@
          </children></Pane>
       <JFXTextField fx:id="quantityField" layoutX="348.0" layoutY="110.0" prefHeight="25.0" prefWidth="50.0" AnchorPane.leftAnchor="348.0" />
       <Label layoutX="348.0" layoutY="94.0" text="Quantité " AnchorPane.leftAnchor="348.0" />
-      <Label layoutX="484.0" layoutY="91.0" text="Client" AnchorPane.leftAnchor="484.0" />
+      <Label layoutX="477.0" layoutY="94.0" text="Client" AnchorPane.leftAnchor="477.0" />
       <JFXTextField fx:id="barcodeField" layoutX="20.0" layoutY="110.0" prefHeight="25.0" prefWidth="145.0" AnchorPane.leftAnchor="20.0" />
       <Label layoutX="20.0" layoutY="93.0" text="Code à barre " AnchorPane.leftAnchor="20.0" />
       <JFXButton fx:id="insertCmdBtn" layoutX="679.0" layoutY="104.0" onAction="#insertRow" prefHeight="25.0" prefWidth="101.0" style="-fx-background-color: #708090;" text="Insérer" textFill="WHITE" AnchorPane.rightAnchor="15.0">
@@ -53,10 +53,10 @@
             <Font size="14.0" />
          </font>
       </JFXButton>
-      <ChoiceBox fx:id="clientChoiceBox" layoutX="484.0" layoutY="108.0" prefWidth="150.0" AnchorPane.leftAnchor="484.0" />
+      <ChoiceBox fx:id="clientChoiceBox" layoutX="477.0" layoutY="110.0" prefWidth="150.0" AnchorPane.leftAnchor="477.0" />
       <JFXTextField fx:id="nameField" layoutX="186.0" layoutY="110.0" prefHeight="25.0" prefWidth="145.0" />
       <Label layoutX="186.0" layoutY="93.0" text="Désignation" />
-      <JFXButton fx:id="validBtn" layoutX="679.0" layoutY="453.0" onAction="#validBtnOnAction" prefHeight="25.0" prefWidth="101.0" style="-fx-background-color: #147714;" text="Valider" textFill="WHITE" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="15.0">
+      <JFXButton fx:id="validBtn" layoutX="679.0" layoutY="461.0" onAction="#validBtnOnAction" prefHeight="25.0" prefWidth="101.0" style="-fx-background-color: #147714;" text="Valider" textFill="WHITE" AnchorPane.bottomAnchor="16.0" AnchorPane.rightAnchor="15.0">
          <font>
             <Font size="13.0" />
          </font>
@@ -72,7 +72,7 @@
          </image>
       </ImageView>
       <Label fx:id="error_msg_label" layoutX="20.0" layoutY="140.0" prefHeight="17.0" prefWidth="400.0" textFill="#d70909" />
-      <ImageView fx:id="restBtn" fitHeight="20.0" fitWidth="20.0" layoutX="652.0" layoutY="109.0" onMouseClicked="#resetFields" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="restBtn" fitHeight="25.0" fitWidth="25.0" layoutX="645.0" layoutY="108.0" onMouseClicked="#resetFields" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@img/reset.png" />
          </image>
@@ -86,5 +86,6 @@
             </Label>
          </children>
       </AnchorPane>
+      <Label fx:id="client_msg_label" layoutX="477.0" layoutY="140.0" prefHeight="17.0" prefWidth="195.0" textFill="#d70909" />
    </children>
 </AnchorPane>

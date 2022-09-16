@@ -94,7 +94,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <JFXButton fx:id="homeBtn" layoutX="2.0" layoutY="253.0" onAction="#toDashboard" prefHeight="50.0" prefWidth="257.0" text="Articles" textFill="WHITE"> <!--onAction="#toDashboard"-->
+                        <JFXButton fx:id="homeBtn" layoutX="2.0" layoutY="253.0" prefHeight="50.0" prefWidth="257.0" text="Articles" textFill="WHITE"> <!--onAction="#toDashboard"-->
                            <font>
                               <Font name="Roboto" size="15.0" />
                            </font>

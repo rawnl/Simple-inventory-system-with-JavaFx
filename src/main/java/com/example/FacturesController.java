@@ -22,19 +22,24 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.Node;
 import javafx.scene.paint.ImagePattern;
@@ -42,6 +47,7 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.Callback;
 
 public class FacturesController implements Initializable{
 
@@ -72,6 +78,7 @@ public class FacturesController implements Initializable{
 	@FXML private TableColumn<Facture, String> invoicesActions;
 
     private ObservableList<Facture> invoicesObsList;
+	private Facture facture;
     private User user;
     
     public User getUser() {
@@ -113,17 +120,13 @@ public class FacturesController implements Initializable{
 	}
 
 	public void initActionIcons(){
-        /* 
-        //add cell of button edit 
-        Callback<TableColumn<Article, String>, TableCell<Article, String>> cellFoctory = (TableColumn<Article, String> param) -> {
-			// make cell containing buttons
-			final TableCell<Article, String> cell = new TableCell<Article, String>() {
+        
+        Callback<TableColumn<Facture, String>, TableCell<Facture, String>> cellFoctory = (TableColumn<Facture, String> param) -> {
+			final TableCell<Facture, String> cell = new TableCell<Facture, String>() {
 				@Override
 				public void updateItem(String item, boolean empty) {
 					super.updateItem(item, empty);
-					//that cell created only on non-empty rows
 					if (empty) {
-						//add button
 						setGraphic(null);
 						setText(null);
 					} else {
@@ -135,13 +138,15 @@ public class FacturesController implements Initializable{
 						iconDelete.setImage(deleteImg);		
 						iconDelete.setStyle(" -fx-cursor: hand ; -fx-fill:#C90202;");
 						iconDelete.setOnMouseClicked((MouseEvent event) -> {       
-							article = tableView.getSelectionModel().getSelectedItem();
+							facture = invoicesTableView.getSelectionModel().getSelectedItem();
+							/* 
 							if(displayConfirmationBox(AlertType.CONFIRMATION, "Suppression", "Vous etes sur le point de supprimer cet article. Etes vous sur ?")){
 								DataManager dataManager = new DataManager();
 								dataManager.DeleteArticle(article.getId());
 								displayMessage(AlertType.INFORMATION, "Suppression", "Article supprimé avec succes");
 								UpdateTableView();
 							}
+							*/
 						});
 					
 						ImageView iconEdit = new ImageView();
@@ -151,13 +156,28 @@ public class FacturesController implements Initializable{
 						iconEdit.setImage(editImg);
 						iconEdit.setStyle(" -fx-cursor: hand ; -fx-fill:#C90202; ");
 						iconEdit.setOnMouseClicked((MouseEvent event) -> {
-							article = tableView.getSelectionModel().getSelectedItem();
-							displayEditForm(article);
+							facture = invoicesTableView.getSelectionModel().getSelectedItem();
+							/* 
+							displayEditForm(facture);
+							*/
 						});
-						HBox managebtn = new HBox(iconEdit, iconDelete); 
+
+						ImageView iconPdf = new ImageView();
+						File filePdfIcon =  new File("src/main/resources/com/example/img/pdf.png");
+						Image pdfImg = new Image(filePdfIcon.toURI().toString(),25,25, false,true);
+
+						iconPdf.setImage(pdfImg);		
+						iconPdf.setStyle(" -fx-cursor: hand ; -fx-fill:#C90202;");
+						iconPdf.setOnMouseClicked((MouseEvent event) -> {       
+							facture = invoicesTableView.getSelectionModel().getSelectedItem();
+							// generate PDF
+						});
+
+						HBox managebtn = new HBox(iconEdit, iconDelete,iconPdf); 
 						managebtn.setStyle("-fx-alignment:center");
 						HBox.setMargin(iconDelete, new Insets(2, 2, 0, 3));
 						HBox.setMargin(iconEdit, new Insets(2, 2, 0, 3));
+						HBox.setMargin(iconPdf, new Insets(2, 2, 0, 3));
 						setGraphic(managebtn);
 						setText(null);
 					}
@@ -165,9 +185,9 @@ public class FacturesController implements Initializable{
 			};
             return cell;
     	};
-        actions.setCellFactory(cellFoctory);
-        tableView.setItems(obsList);
-        */
+        invoicesActions.setCellFactory(cellFoctory);
+        invoicesTableView.setItems(invoicesObsList);
+
     }
 
     // To test after fixing addArticle
@@ -254,13 +274,13 @@ public class FacturesController implements Initializable{
 		stage.show();
 
 	}
-	 
+	
+	/* 
 	@FXML
 	public void toFactures() throws IOException { 
         AnchorPane statPane = FXMLLoader.load(getClass().getResource("invoices.fxml"));
-		mainAnchorPane.getChildren().setAll(statPane);	
-        
-	}
+		mainAnchorPane.getChildren().setAll(statPane);	    
+	}*/
 
     public void displayNewInvoice() throws IOException{
 		
@@ -268,8 +288,8 @@ public class FacturesController implements Initializable{
 		Parent root = (Parent) loader.load();
 		Stage stage = new Stage();
 		stage.setScene(new Scene(root));
+
 		newInvoiceController newInvoiceController = loader.getController();
-		
 		newInvoiceController.setUser(user);
 
 		stage.initModality(Modality.WINDOW_MODAL); // APPLICATION_MODAL
@@ -283,7 +303,5 @@ public class FacturesController implements Initializable{
 			}
 		});
     }
-
-	
     
 }

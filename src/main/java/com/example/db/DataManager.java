@@ -62,6 +62,7 @@ public class DataManager {
 		return user;
 	}
 	
+	// Articles ------------------------
 	// test if article already exists
 	public boolean addArticle(Article article) {
 		boolean result = false;
@@ -226,6 +227,7 @@ public class DataManager {
 		return articles;
 	}
  
+	// Catégories ------------------------
 	public Category getCategory(int id) {
 		Category category = null ;
 		getConnection();
@@ -243,6 +245,22 @@ public class DataManager {
 		}
 		return category;
 	}
+
+	public boolean addCategory(Category category) {
+        boolean result = false;
+		getConnection();
+		try {
+			PreStat = connection.prepareStatement("insert into categories (categoryName) values (?) ; ");
+			PreStat.setString(1,category.getName());
+			
+			if(PreStat.executeUpdate() >= 1){
+				result = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+    }
 
 	public ArrayList<Category> getCategories() {
 		ArrayList<Category> categories = new ArrayList<Category>() ;
@@ -262,6 +280,28 @@ public class DataManager {
 			e.printStackTrace();
 		}
 		return categories;
+	}
+
+	// Factures ------------------------
+	public Facture addFacture(Facture facture) {
+		getConnection();
+		try {
+			PreStat = connection.prepareStatement("insert into factures (clientId, userId, date, total) values (?, ?, ?, ?) ; ", Statement.RETURN_GENERATED_KEYS);
+			PreStat.setInt(1,facture.getClient().getId());
+			PreStat.setInt(2,facture.getUser().getId());
+			PreStat.setDate(3, facture.getDate());
+			PreStat.setDouble(4,facture.getTotal());
+			PreStat.executeUpdate();
+			res = PreStat.getGeneratedKeys();
+			if(res.next() && res != null){
+				facture.setNumber(res.getInt(1));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return facture;
+		
 	}
 
     public ArrayList<Facture> getFactures() {
@@ -307,22 +347,27 @@ public class DataManager {
 		return total;
 	}
 
-	public boolean addCategory(Category category) {
-        boolean result = false;
-		getConnection();
-		try {
-			PreStat = connection.prepareStatement("insert into categories (categoryName) values (?) ; ");
-			PreStat.setString(1,category.getName());
-			
-			if(PreStat.executeUpdate() >= 1){
-				result = true;
+	// Commandes ------------------------
+	public boolean addCommande(Commande commande){
+		boolean result = false;
+			getConnection();
+			try {
+				PreStat = connection.prepareStatement("insert into commandes (idFacture, idArticle, quantity) values (?, ?, ?) ; ");
+				
+				PreStat.setInt(1,commande.getIdFacture());			
+				PreStat.setInt(2,commande.getIdArticle());
+				PreStat.setInt(3,commande.getQuantity());
+	
+				if(PreStat.executeUpdate() >= 1){
+					result = true;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			return result;
 		}
-		return result;
-    }
-
+	
+	// Clients ------------------------
 	public Client getClient(int id){
 		Client client = null ;
 		getConnection();
@@ -343,44 +388,26 @@ public class DataManager {
 		return client;
 	}
 	
-	public boolean addCommande(Commande commande){
-	boolean result = false;
+	public ArrayList<Client> getClients(){
+		ArrayList<Client> clients = new ArrayList<Client>() ;
 		getConnection();
 		try {
-			PreStat = connection.prepareStatement("insert into commandes (idFacture, idArticle, quantity) values (?, ?, ?) ; ");
-			
-			PreStat.setInt(1,commande.getIdFacture());			
-			PreStat.setInt(2,commande.getIdArticle());
-			PreStat.setInt(3,commande.getQuantity());
-
-			if(PreStat.executeUpdate() >= 1){
-				result = true;
+			Stat = connection.createStatement();
+			res = Stat.executeQuery("select * from clients ; ");
+			while(res.next()){
+				Client client = new Client ();
+				client.setId(res.getInt("id"));
+				client.setName(res.getString("name"));
+				client.setPhone(res.getString("phone"));
+				client.setAddress(res.getString("address"));
+				clients.add(client);
+				System.out.println(client);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
+			System.out.println(e);
 		}
-		return result;
-	}
-	
-	public Facture addFacture(Facture facture) {
-		getConnection();
-		try {
-			PreStat = connection.prepareStatement("insert into factures (clientId, userId, date, total) values (?, ?, ?, ?) ; ", Statement.RETURN_GENERATED_KEYS);
-			PreStat.setInt(1,facture.getClient().getId());
-			PreStat.setInt(2,facture.getUser().getId());
-			PreStat.setDate(3, facture.getDate());
-			PreStat.setDouble(4,facture.getTotal());
-			PreStat.executeUpdate();
-			res = PreStat.getGeneratedKeys();
-			if(res.next() && res != null){
-				facture.setNumber(res.getInt(1));
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return facture;
-		
+		return clients;
 	}
   		
 }

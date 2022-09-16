@@ -113,7 +113,7 @@
                               <Image url="@img/dashboard.png" />
                            </image>
                         </ImageView>
-                        <JFXButton fx:id="invoicesBtn" layoutX="2.0" layoutY="314.0" onAction="#toFactures" prefHeight="50.0" prefWidth="257.0" text="Factures" textFill="WHITE"> <!--onAction="#toStats"-->
+                        <JFXButton fx:id="invoicesBtn" layoutX="2.0" layoutY="314.0" prefHeight="50.0" prefWidth="257.0" text="Factures" textFill="WHITE"> <!--onAction="#toStats"-->
                            <font>
                               <Font size="15.0" />
                            </font>
