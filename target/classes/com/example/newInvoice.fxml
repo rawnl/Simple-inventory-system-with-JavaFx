@@ -25,32 +25,23 @@
           <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
         </rowConstraints>
          <children>
-            <TableView prefHeight="270.0" prefWidth="795.0">
+            <TableView fx:id="invoiceTableView" prefHeight="270.0" prefWidth="795.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="Article " />
-                <TableColumn prefWidth="75.0" text="Quantité" />
-                  <TableColumn prefWidth="75.0" text="Prix" />
-                  <TableColumn prefWidth="75.0" text="Total" />
+                  <TableColumn fx:id="articleName" prefWidth="75.0" text="Article " />
+                <TableColumn fx:id="quantity" prefWidth="75.0" text="Quantité" />
+                  <TableColumn fx:id="price" prefWidth="75.0" text="Prix" />
+                  <TableColumn fx:id="subTotal" prefWidth="75.0" text="Total" />
               </columns>
             </TableView>
          </children>
       </GridPane>
-      <Pane layoutX="-3.0" layoutY="-1.0" prefHeight="75.0" prefWidth="795.0" style="-fx-background-color: #708090;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane layoutX="-3.0" layoutY="-1.0" prefHeight="75.0" prefWidth="495.0" style="-fx-background-color: #708090;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label layoutX="34.0" layoutY="20.0" text="Nouvelle facture" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>
             </Label>
-            <AnchorPane layoutX="495.0" prefHeight="75.0" prefWidth="300.0" style="-fx-background-color: black;">
-               <children>
-                  <Label fx:id="totalLabel" alignment="CENTER_RIGHT" layoutX="15.0" layoutY="13.0" prefHeight="48.0" prefWidth="270.0" textFill="#72ff13" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-                     <font>
-                        <Font name="System Bold" size="30.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
          </children></Pane>
       <JFXTextField fx:id="quantityField" layoutX="348.0" layoutY="110.0" prefHeight="25.0" prefWidth="50.0" AnchorPane.leftAnchor="348.0" />
       <Label layoutX="348.0" layoutY="94.0" text="Quantité " AnchorPane.leftAnchor="348.0" />
@@ -86,5 +77,14 @@
             <Image url="@img/reset.png" />
          </image>
       </ImageView>
+      <AnchorPane layoutX="495.0" prefHeight="75.0" prefWidth="300.0" style="-fx-background-color: black;" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="totalLabel" alignment="CENTER_RIGHT" layoutX="15.0" layoutY="13.0" prefHeight="48.0" prefWidth="270.0" textFill="#72ff13" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+               <font>
+                  <Font name="System Bold" size="30.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

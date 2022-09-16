@@ -1,14 +1,18 @@
 package com.example;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import com.example.db.DataManager;
 import com.example.model.Article;
+import com.example.model.Commande;
 import com.jfoenix.controls.JFXTextField;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
@@ -18,6 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -29,20 +34,26 @@ public class newInvoiceController implements Initializable{
     
     @FXML private Label error_msg_label;
 
-    @FXML private TableView<String> invoiceTableView;
-	@FXML private TableColumn <String, String> articleName;
-	@FXML private TableColumn <String, Double> price;
-	@FXML private TableColumn <String, Integer> quantity;
-    @FXML private TableColumn <String, Double> subTotal;
+    @FXML private TableView<Commande> invoiceTableView;
+	//@FXML private TableColumn <Commande, Integer> idArticle;
+    @FXML private TableColumn <Commande, String> articleName;
+	@FXML private TableColumn <Commande, Double> price;
+	@FXML private TableColumn <Commande, Integer> quantity;
+    @FXML private TableColumn <Commande, Double> subTotal;
 	
 	@FXML private TableColumn<String, String> invoicesActions;
     @FXML private Label totalLabel;
 
     private Article article;
+    private ObservableList<Commande> observableList ;
+
+    private ArrayList<Commande> commandes;
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-
+        commandes = new ArrayList<Commande>();
+        totalLabel.setText("0.0");
+        initTableView();
         /*  
         barcodeField.setOnKeyPressed(new EventHandler<KeyEvent>(){
 
@@ -95,6 +106,16 @@ public class newInvoiceController implements Initializable{
         quantityField.setTextFormatter(new TextFormatter<>(change ->
         (change.getControlNewText().matches("([1-9][0-9]*)?")) ? change : null));
         
+    }
+
+    private void initTableView() {
+        
+        //idArticle.setCellValueFactory(new PropertyValueFactory<Commande,Integer>("idArticle"));
+        articleName.setCellValueFactory(new PropertyValueFactory<Commande,String>("articleName"));
+		price.setCellValueFactory(new PropertyValueFactory<Commande,Double>("price"));
+		quantity.setCellValueFactory(new PropertyValueFactory<Commande,Integer>("quantity"));
+        subTotal.setCellValueFactory(new PropertyValueFactory<Commande,Double>("total"));
+
     }
 
     public void getItemByBarcode(String barcode){
@@ -159,9 +180,49 @@ public class newInvoiceController implements Initializable{
     }
 
     public void insertRow(){
-        System.out.println("création d'un nouvel article");
-        System.out.println("création d'une nouvelle comande");
-        System.out.println("Ajout à la table");
+        
+        DataManager dataManager = new DataManager();
+        boolean itemExisted = false ;
+
+        if(!commandes.isEmpty()){
+            for (Commande c : commandes) {
+                if(c.getIdArticle() == dataManager.getArticleByBarcode(barcodeField.getText()).getId()){
+
+                    c.setQuantity(c.getQuantity() + Integer.parseInt(quantityField.getText()));
+                    c.setTotal(c.getQuantity() * c.getPrice());//(c.getQuantity() + Integer.parseInt(quantityField.getText()));
+                    itemExisted = true;
+
+                }
+            }
+        }
+        if( !itemExisted ){
+            Commande cmd = new Commande();
+            Article currentArticle = dataManager.getArticleByBarcode(barcodeField.getText());
+            cmd.setIdArticle(currentArticle.getId());
+            cmd.setArticleName(currentArticle.getArticleName());
+            cmd.setPrice(currentArticle.getPrice());
+            cmd.setQuantity(Integer.parseInt(quantityField.getText()));
+            double subTotal = cmd.getQuantity() * currentArticle.getPrice();
+            cmd.setTotal(subTotal);
+            commandes.add(cmd);    
+        }
+
+        fillTableView();
         resetFields();
+
     }
+
+    public void fillTableView(){
+
+        observableList = FXCollections.observableList(commandes);
+        invoiceTableView.setItems(observableList);
+        invoiceTableView.refresh();
+        double grandTotal = 0;
+        for (Commande row : invoiceTableView.getItems()) {
+            grandTotal = grandTotal + row.getTotal();
+        }
+        totalLabel.setText(Double.toString(grandTotal));
+    
+    }
+
 }
