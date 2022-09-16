@@ -1,12 +1,13 @@
 package com.example.model;
 
 public class Commande {
-    //private int idFacture;
+    private int idFacture;
     private int idArticle;
     private String articleName ;
     private double price ;
     private int quantity;
     private double total;
+    
     public Commande() {
         super();
     }
@@ -14,14 +15,13 @@ public class Commande {
         //this.idFacture = idFacture;
         this.idArticle = idArticle;
         this.quantity = quantity;
-    }*/
-    /* 
+    }*/ 
     public int getIdFacture() {
         return idFacture;
     }
     public void setIdFacture(int idFacture) {
         this.idFacture = idFacture;
-    }*/
+    }
     public int getIdArticle() {
         return idArticle;
     }

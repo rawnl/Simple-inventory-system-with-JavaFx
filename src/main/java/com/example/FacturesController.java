@@ -270,6 +270,8 @@ public class FacturesController implements Initializable{
 		stage.setScene(new Scene(root));
 		newInvoiceController newInvoiceController = loader.getController();
 		
+		newInvoiceController.setUser(user);
+
 		stage.initModality(Modality.WINDOW_MODAL); // APPLICATION_MODAL
 		Stage primaryStage = (Stage)(mainAnchorPane.getScene().getWindow()); 
 		stage.initOwner(primaryStage);

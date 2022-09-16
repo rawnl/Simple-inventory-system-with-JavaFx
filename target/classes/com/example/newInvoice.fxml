@@ -25,12 +25,12 @@
           <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
         </rowConstraints>
          <children>
-            <TableView fx:id="invoiceTableView" prefHeight="270.0" prefWidth="795.0">
+            <TableView fx:id="invoiceTableView" prefHeight="270.0" prefWidth="795.0" GridPane.vgrow="ALWAYS">
               <columns>
-                  <TableColumn fx:id="articleName" prefWidth="75.0" text="Article " />
-                <TableColumn fx:id="quantity" prefWidth="75.0" text="Quantité" />
-                  <TableColumn fx:id="price" prefWidth="75.0" text="Prix" />
-                  <TableColumn fx:id="subTotal" prefWidth="75.0" text="Total" />
+                  <TableColumn fx:id="articleName" prefWidth="313.0" text="Article " />
+                <TableColumn fx:id="quantity" minWidth="0.0" prefWidth="106.0" text="Quantité" />
+                  <TableColumn fx:id="price" minWidth="0.0" prefWidth="179.0" text="Prix" />
+                  <TableColumn fx:id="subTotal" prefWidth="196.0" text="Total" />
               </columns>
             </TableView>
          </children>
@@ -56,7 +56,7 @@
       <ChoiceBox fx:id="clientChoiceBox" layoutX="484.0" layoutY="108.0" prefWidth="150.0" AnchorPane.leftAnchor="484.0" />
       <JFXTextField fx:id="nameField" layoutX="186.0" layoutY="110.0" prefHeight="25.0" prefWidth="145.0" />
       <Label layoutX="186.0" layoutY="93.0" text="Désignation" />
-      <JFXButton fx:id="validBtn" layoutX="679.0" layoutY="453.0" prefHeight="25.0" prefWidth="101.0" style="-fx-background-color: #147714;" text="Valider" textFill="WHITE" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="15.0">
+      <JFXButton fx:id="validBtn" layoutX="679.0" layoutY="453.0" onAction="#validBtnOnAction" prefHeight="25.0" prefWidth="101.0" style="-fx-background-color: #147714;" text="Valider" textFill="WHITE" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="15.0">
          <font>
             <Font size="13.0" />
          </font>

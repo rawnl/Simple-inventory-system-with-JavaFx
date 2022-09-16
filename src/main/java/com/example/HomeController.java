@@ -89,6 +89,10 @@ public class HomeController implements Initializable{
 	@FXML private TableColumn <Article, String> articleName;
    	@FXML private TableColumn <Article, String> barcode;
 	@FXML private TableColumn <Article, Category> category;
+
+	//@FXML private TableColumn <Category, Integer> idCategory;
+	//@FXML private TableColumn <Category, String> categoryName;
+
 	@FXML private TableColumn <Article, String> brand; 
 	@FXML private TableColumn <Article, String> model;
 	@FXML private TableColumn <Article, Double> price;
@@ -140,6 +144,10 @@ public class HomeController implements Initializable{
 		articleName.setCellValueFactory(new PropertyValueFactory<Article,String>("articleName"));
 		barcode.setCellValueFactory(new PropertyValueFactory<Article,String>("barcode"));
 		category.setCellValueFactory(new PropertyValueFactory<Article,Category>("category"));
+		
+		//idCategory.setCellValueFactory(new PropertyValueFactory<Category,Integer>("category.id"));
+		//categoryName.setCellValueFactory(new PropertyValueFactory<Category,String>("category.name"));
+
 		brand.setCellValueFactory(new PropertyValueFactory<Article,String>("brand"));
 		model.setCellValueFactory(new PropertyValueFactory<Article,String>("model"));
 		price.setCellValueFactory(new PropertyValueFactory<Article,Double>("price"));

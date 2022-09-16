@@ -3,6 +3,7 @@ package com.example.db;
 import com.example.model.Article;
 import com.example.model.Category;
 import com.example.model.Client;
+import com.example.model.Commande;
 import com.example.model.Facture;
 import com.example.model.User;
 
@@ -40,7 +41,7 @@ public class DataManager {
 		 }
 	 }
 
-	 public User Login(String username, String password){
+	public User Login(String username, String password){
 		User user = null ;
 		getConnection();
 		try {
@@ -62,7 +63,7 @@ public class DataManager {
 	}
 	
 	// test if article already exists
-	 public boolean addArticle(Article article) {
+	public boolean addArticle(Article article) {
 		boolean result = false;
 		getConnection();
 		try {
@@ -84,7 +85,6 @@ public class DataManager {
 		return result;
 	}
 	
-	// link to btn & test
 	public boolean DeleteArticle(int id) {
 		boolean result = false ;
 		getConnection();
@@ -100,7 +100,6 @@ public class DataManager {
 		return result;
 	}
 
-	// link to btn & test
 	public boolean EditArticle(Article article) {
 		boolean result = false;
 		getConnection();
@@ -323,36 +322,65 @@ public class DataManager {
 		}
 		return result;
     }
-  	
-	/* 
-	public static Map<String, Integer> countGroupBy(String date){
-		Map<String, Integer> myMap = null;
+
+	public Client getClient(int id){
+		Client client = null ;
 		getConnection();
 		try {
-			PreStat = connection.prepareStatement("SELECT DMB_next, count(DMB_next) as rowcount FROM Animals where DMB_next >= ? group by DMB_next");
-			PreStat.setString(1, date);
-
+			PreStat = connection.prepareStatement("select * from clients where id = ? ; ");
+			PreStat.setInt(1,id);
 			res = PreStat.executeQuery();
-			
-			myMap = new HashMap<String, Integer>();
-			
-			while(res.next()){
-				myMap.put(res.getString(1), res.getInt(2));
-			}			
-			
-		}catch (SQLException e) {
+			if(res.next()){
+				client = new Client ();
+				client.setId(res.getInt("id"));
+				client.setName(res.getString("name"));
+				client.setPhone(res.getString("phone"));
+				client.setAddress(res.getString("address"));
+			}
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return myMap;
+		return client;
 	}
-	/*	
-	public static void main(String [] args){
-		Map<String, Integer> myMap = countGroupBy();
-		
-		for (Map.Entry<String, Integer> entry : myMap.entrySet()) {
-			System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
-		}
-
-	}*/
 	
+	public boolean addCommande(Commande commande){
+	boolean result = false;
+		getConnection();
+		try {
+			PreStat = connection.prepareStatement("insert into commandes (idFacture, idArticle, quantity) values (?, ?, ?) ; ");
+			
+			PreStat.setInt(1,commande.getIdFacture());			
+			PreStat.setInt(2,commande.getIdArticle());
+			PreStat.setInt(3,commande.getQuantity());
+
+			if(PreStat.executeUpdate() >= 1){
+				result = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public Facture addFacture(Facture facture) {
+		getConnection();
+		try {
+			PreStat = connection.prepareStatement("insert into factures (clientId, userId, date, total) values (?, ?, ?, ?) ; ", Statement.RETURN_GENERATED_KEYS);
+			PreStat.setInt(1,facture.getClient().getId());
+			PreStat.setInt(2,facture.getUser().getId());
+			PreStat.setDate(3, facture.getDate());
+			PreStat.setDouble(4,facture.getTotal());
+			PreStat.executeUpdate();
+			res = PreStat.getGeneratedKeys();
+			if(res.next() && res != null){
+				facture.setNumber(res.getInt(1));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return facture;
+		
+	}
+  		
 }
