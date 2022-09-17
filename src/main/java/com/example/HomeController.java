@@ -461,4 +461,21 @@ public class HomeController implements Initializable{
 
 	}
    
+	@FXML
+	public void toSettings(ActionEvent event) throws IOException {
+		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("settings.fxml"));
+		Parent root = (Parent) loader.load();
+
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
+
+		SettingsController settingsController = loader.getController();
+		settingsController.setupUserInfo(user);
+
+		stage.show();
+
+	}
+
 }

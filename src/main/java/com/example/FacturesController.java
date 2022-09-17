@@ -242,6 +242,28 @@ public class FacturesController implements Initializable{
 		});
 	}
 
+	public void displayNewInvoice() throws IOException{
+		
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("newInvoice.fxml"));
+		Parent root = (Parent) loader.load();
+		Stage stage = new Stage();
+		stage.setScene(new Scene(root));
+
+		newInvoiceController newInvoiceController = loader.getController();
+		newInvoiceController.setUser(user);
+
+		stage.initModality(Modality.WINDOW_MODAL); 
+		Stage primaryStage = (Stage)(mainAnchorPane.getScene().getWindow()); 
+		stage.initOwner(primaryStage);
+		stage.show();
+		
+		stage.setOnCloseRequest((EventHandler<WindowEvent>) new EventHandler<WindowEvent>() {
+			public void handle(WindowEvent we) {
+				UpdateInvoicesTableView();
+			}
+		});
+    }
+    
     @FXML
 	public void toDashboard(ActionEvent event) throws IOException {
 		
@@ -270,26 +292,21 @@ public class FacturesController implements Initializable{
 
 	}
 	
-    public void displayNewInvoice() throws IOException{
+	@FXML
+	public void toSettings(ActionEvent event) throws IOException {
 		
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("newInvoice.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("settings.fxml"));
 		Parent root = (Parent) loader.load();
-		Stage stage = new Stage();
-		stage.setScene(new Scene(root));
 
-		newInvoiceController newInvoiceController = loader.getController();
-		newInvoiceController.setUser(user);
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
 
-		stage.initModality(Modality.WINDOW_MODAL); // APPLICATION_MODAL
-		Stage primaryStage = (Stage)(mainAnchorPane.getScene().getWindow()); 
-		stage.initOwner(primaryStage);
+		SettingsController settingsController = loader.getController();
+		settingsController.setupUserInfo(user);
+
 		stage.show();
-		
-		stage.setOnCloseRequest((EventHandler<WindowEvent>) new EventHandler<WindowEvent>() {
-			public void handle(WindowEvent we) {
-				UpdateInvoicesTableView();
-			}
-		});
-    }
-    
+
+	}
+	
 }

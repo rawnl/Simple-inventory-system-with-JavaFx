@@ -112,7 +112,7 @@
                               <Image url="@img/invoice.png" />
                            </image>
                         </ImageView>
-                        <JFXButton fx:id="settingsBtn" layoutX="2.0" layoutY="374.0" prefHeight="50.0" prefWidth="257.0" text="Paramètres" textFill="WHITE">
+                        <JFXButton fx:id="settingsBtn" layoutX="2.0" layoutY="374.0" onAction="#toSettings" prefHeight="50.0" prefWidth="257.0" text="Paramètres" textFill="WHITE">
                            <font>
                               <Font size="15.0" />
                            </font>

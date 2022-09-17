@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="mainAnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.SettingsController">
    <children>
       <StackPane fx:id="stackPane" layoutX="-5.0" layoutY="-2.0" prefHeight="525.0" prefWidth="890.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="-5.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-2.0">
          <children>
@@ -37,7 +37,7 @@
                               <Image url="@img/articles.png" />
                            </image>
                         </ImageView>
-                        <JFXButton fx:id="invoicesBtn" layoutX="2.0" layoutY="314.0" prefHeight="50.0" prefWidth="257.0" text="Factures" textFill="WHITE">
+                        <JFXButton fx:id="invoicesBtn" layoutX="2.0" layoutY="314.0" onAction="#toFactures" prefHeight="50.0" prefWidth="257.0" text="Factures" textFill="WHITE">
                            <font>
                               <Font size="15.0" />
                            </font>
