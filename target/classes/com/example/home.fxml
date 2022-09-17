@@ -99,7 +99,7 @@
                         </JFXButton>
                         <ImageView fx:id="homeIcon" fitHeight="25.0" fitWidth="25.0" layoutX="38.0" layoutY="265.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@img/dashboard.png" />
+                              <Image url="@img/articles.png" />
                            </image>
                         </ImageView>
                         <JFXButton fx:id="invoicesBtn" layoutX="2.0" layoutY="314.0" onAction="#toFactures" prefHeight="50.0" prefWidth="257.0" text="Factures" textFill="WHITE"> <!--onAction="#toStats"-->
@@ -110,6 +110,16 @@
                         <ImageView fx:id="invoicesIcon" fitHeight="25.0" fitWidth="25.0" layoutX="39.0" layoutY="327.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@img/invoice.png" />
+                           </image>
+                        </ImageView>
+                        <JFXButton fx:id="settingsBtn" layoutX="2.0" layoutY="374.0" prefHeight="50.0" prefWidth="257.0" text="Paramètres" textFill="WHITE">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </JFXButton>
+                        <ImageView fx:id="settingsIcon" fitHeight="25.0" fitWidth="25.0" layoutX="39.0" layoutY="387.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@img/settings.png" />
                            </image>
                         </ImageView>
                      </children>
