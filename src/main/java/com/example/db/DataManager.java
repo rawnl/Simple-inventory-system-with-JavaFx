@@ -246,6 +246,24 @@ public class DataManager {
 		return category;
 	}
 
+	public Category getCategoryByName(String name) {
+		Category category = null ;
+		getConnection();
+		try {
+			PreStat = connection.prepareStatement("select * from categories where categoryName = ? ; ");
+			PreStat.setString(1,name);
+			res = PreStat.executeQuery();
+			if(res.next()){
+				category = new Category ();
+				category.setId(res.getInt("id"));
+				category.setName(res.getString("categoryName"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return category;
+	}
+
 	public boolean addCategory(Category category) {
         boolean result = false;
 		getConnection();
@@ -256,6 +274,8 @@ public class DataManager {
 			if(PreStat.executeUpdate() >= 1){
 				result = true;
 			}
+			connection.close();
+			res.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

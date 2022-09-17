@@ -5,7 +5,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.example.db.DataManager;
+import com.example.model.Category;
 import com.example.model.User;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,8 +19,10 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.ImagePattern;
@@ -27,8 +33,19 @@ public class SettingsController implements Initializable{
  
     @FXML Circle circle;
     @FXML Label username;
-    
-    private User user;
+
+	@FXML JFXTextField categoryTextField;
+	@FXML Label error_msg_label;
+
+	@FXML JFXTextField clientNameTextField;
+	@FXML JFXTextField clientPhoneTextField;
+	@FXML JFXTextField clientAddressTextField;
+
+	@FXML JFXTextField nameTextField;
+	@FXML JFXTextField usernameTextField;
+	@FXML JFXPasswordField passwordField;
+
+	private User user;
 
     public User getUser() {
 		return user;
@@ -57,6 +74,41 @@ public class SettingsController implements Initializable{
 		username.setAlignment(Pos.CENTER);
 	}
 
+	public void addCategoryBtnOnAction(){
+		DataManager dataManager = new DataManager();
+		if(dataManager.getCategoryByName(categoryTextField.getText()) != null){
+			error_msg_label.setText("Cette catégorie existe déja");
+		}else{
+			Category category= new Category();
+			category.setName(categoryTextField.getText());
+			if(dataManager.addCategory(category)){
+				displayMessage(AlertType.INFORMATION, "Succes", "Opération effectuée avec succes");
+				error_msg_label.setText("");
+				categoryTextField.clear();
+			}else{
+				displayMessage(AlertType.ERROR, "Echec", "Echec\n une erreur s'st produite lors de l'jout de cette catégorie");
+				error_msg_label.setText("");
+				categoryTextField.clear();
+			}
+		}
+	}
+
+	public void addClientBtnOnAction(){
+		
+	}
+
+	public void addUserBtnOnAction(){
+		
+	}
+
+	public void displayMessage(AlertType alertType, String title, String msg) {
+		Alert alert = new Alert(alertType);
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(msg);
+		alert.showAndWait();
+	}
+	
 	@FXML
 	public void toDashboard(ActionEvent event) throws IOException {
 

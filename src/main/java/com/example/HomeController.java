@@ -156,16 +156,12 @@ public class HomeController implements Initializable{
 	}
 
 	public void initActionIcons(){
-        //add cell of button edit 
         Callback<TableColumn<Article, String>, TableCell<Article, String>> cellFoctory = (TableColumn<Article, String> param) -> {
-			// make cell containing buttons
 			final TableCell<Article, String> cell = new TableCell<Article, String>() {
 				@Override
 				public void updateItem(String item, boolean empty) {
 					super.updateItem(item, empty);
-					//that cell created only on non-empty rows
 					if (empty) {
-						//add button
 						setGraphic(null);
 						setText(null);
 					} else {
@@ -249,13 +245,6 @@ public class HomeController implements Initializable{
 		});
 	}
 	
-	public Node createPage(int pageIndex){
-		int fromIndex = pageIndex * rowsPerPage;
-		int toIndex = Math.min(fromIndex+rowsPerPage, Integer.parseInt(total.getText()));
-		tableView.setItems(FXCollections.observableArrayList(obsList.subList(fromIndex, toIndex)));
-		return tableView;
-	}
-	
 	// display delete dialog --> to get rid of
 	/* 
 	public void displayDeleteDialog(){
@@ -301,16 +290,14 @@ public class HomeController implements Initializable{
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("editForm.fxml"));
 		Parent root;
 		try {
-			
 			root = (Parent) loader.load();
 			Stage stage = new Stage();
 			stage.setScene(new Scene(root));
 			
 			EditController editController = loader.getController();
-
 			editController.setArticle(article);
 													
-			stage.initModality(Modality.WINDOW_MODAL); // APPLICATION_MODAL
+			stage.initModality(Modality.WINDOW_MODAL);
 			Stage primaryStage = (Stage)(mainAnchorPane.getScene().getWindow()); 										
 			stage.initOwner(primaryStage);
 
@@ -389,14 +376,10 @@ public class HomeController implements Initializable{
 		Stage stage = new Stage();
 		stage.setScene(new Scene(root));
 		AddFormController addFormController = loader.getController();
-		//addFormController.configureBackground();
 		
-		stage.initModality(Modality.WINDOW_MODAL); // APPLICATION_MODAL
+		stage.initModality(Modality.WINDOW_MODAL); 
 		Stage primaryStage = (Stage)(mainAnchorPane.getScene().getWindow()); 
-		
-		stage.initOwner(primaryStage);
-	
-		//addFormController.setDynamic();		
+		stage.initOwner(primaryStage);	
 		stage.show();
 		
 		stage.setOnCloseRequest((EventHandler<WindowEvent>) new EventHandler<WindowEvent>() {

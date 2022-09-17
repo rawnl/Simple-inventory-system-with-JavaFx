@@ -59,7 +59,7 @@
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <Label layoutX="283.0" layoutY="22.0" prefHeight="20.0" prefWidth="160.0" text="Paramètres" AnchorPane.leftAnchor="274.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="25.0">
+                  <Label layoutX="274.0" layoutY="14.0" prefHeight="20.0" prefWidth="160.0" text="Paramètres" AnchorPane.leftAnchor="274.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="14.0">
                      <font>
                         <Font size="25.0" />
                      </font>
@@ -71,13 +71,14 @@
                               <Font name="System Bold" size="15.0" />
                            </font>
                         </Label>
-                        <JFXTextField focusColor="#6f808f" layoutX="169.0" layoutY="44.0" prefHeight="25.0" prefWidth="291.0" AnchorPane.bottomAnchor="28.0" AnchorPane.leftAnchor="165.0" AnchorPane.rightAnchor="165.0" />
+                        <JFXTextField fx:id="categoryTextField" focusColor="#6f808f" layoutX="169.0" layoutY="44.0" prefHeight="25.0" prefWidth="291.0" AnchorPane.bottomAnchor="28.0" AnchorPane.leftAnchor="165.0" AnchorPane.rightAnchor="165.0" />
                         <Label layoutX="37.0" layoutY="48.0" text="Nom de la catégorie" AnchorPane.bottomAnchor="30.0" />
-                        <JFXButton layoutX="481.0" layoutY="42.0" prefHeight="25.0" prefWidth="96.0" style="-fx-background-color: #708090;" text="Ajouter" textFill="WHITE" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="25.0">
+                        <JFXButton fx:id="addCategoryBtn" layoutX="481.0" layoutY="42.0" onAction="#addCategoryBtnOnAction" prefHeight="25.0" prefWidth="96.0" style="-fx-background-color: #708090;" text="Ajouter" textFill="WHITE" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="25.0">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </JFXButton>
+                        <Label fx:id="error_msg_label" layoutX="166.0" layoutY="74.0" prefHeight="17.0" prefWidth="269.0" textFill="#d70909" />
                      </children>
                   </AnchorPane>
                   <AnchorPane layoutX="263.0" layoutY="166.0" prefHeight="362.0" prefWidth="627.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="259.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="165.0">
@@ -95,12 +96,12 @@
                                        </font>
                                     </Label>
                                     <Label layoutX="28.0" layoutY="54.0" text="Nom et prénom" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="55.0" />
-                                    <JFXTextField focusColor="SLATEGRAY" layoutX="26.0" layoutY="72.0" prefHeight="25.0" prefWidth="236.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="70.0" />
+                                    <JFXTextField fx:id="clientNameTextField" focusColor="SLATEGRAY" layoutX="26.0" layoutY="72.0" prefHeight="25.0" prefWidth="236.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="70.0" />
                                     <Label layoutX="31.0" layoutY="117.0" text="N° de téléphone" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="120.0" />
-                                    <JFXTextField focusColor="SLATEGRAY" layoutX="28.0" layoutY="139.0" prefHeight="25.0" prefWidth="236.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="140.0" />
+                                    <JFXTextField fx:id="clientPhoneTextField" focusColor="SLATEGRAY" layoutX="28.0" layoutY="139.0" prefHeight="25.0" prefWidth="236.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="140.0" />
                                     <Label layoutX="31.0" layoutY="188.0" text="Adresse" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="190.0" />
-                                    <JFXTextField focusColor="SLATEGRAY" layoutX="28.0" layoutY="210.0" prefHeight="25.0" prefWidth="236.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="210.0" />
-                                    <JFXButton layoutX="168.0" layoutY="262.0" prefHeight="25.0" prefWidth="96.0" style="-fx-background-color: #708090;" text="Ajouter" textFill="WHITE" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="30.0">
+                                    <JFXTextField fx:id="clientAddressTextField" focusColor="SLATEGRAY" layoutX="28.0" layoutY="210.0" prefHeight="25.0" prefWidth="236.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="210.0" />
+                                    <JFXButton fx:id="addClientBtn" layoutX="168.0" layoutY="262.0" onAction="#addClientBtnOnAction" prefHeight="25.0" prefWidth="96.0" style="-fx-background-color: #708090;" text="Ajouter" textFill="WHITE" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="30.0">
                                        <font>
                                           <Font size="13.0" />
                                        </font>
@@ -117,10 +118,10 @@
                                           <Font name="System Bold" size="15.0" />
                                        </font>
                                     </Label>
-                                    <JFXTextField focusColor="SLATEGRAY" layoutX="28.0" layoutY="70.0" prefHeight="25.0" prefWidth="236.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="70.0" />
-                                    <JFXTextField focusColor="SLATEGRAY" layoutX="28.0" layoutY="139.0" prefHeight="25.0" prefWidth="236.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="140.0" />
-                                    <JFXPasswordField layoutX="28.0" layoutY="202.0" prefHeight="25.0" prefWidth="236.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="210.0" />
-                                    <JFXButton layoutX="168.0" layoutY="264.0" prefHeight="25.0" prefWidth="96.0" style="-fx-background-color: #708090;" text="Ajouter" textFill="WHITE" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="30.0">
+                                    <JFXTextField fx:id="nameTextField" focusColor="SLATEGRAY" layoutX="28.0" layoutY="70.0" prefHeight="25.0" prefWidth="236.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="70.0" />
+                                    <JFXTextField fx:id="usernameTextField" focusColor="SLATEGRAY" layoutX="28.0" layoutY="139.0" prefHeight="25.0" prefWidth="236.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="140.0" />
+                                    <JFXPasswordField fx:id="passwordField" layoutX="28.0" layoutY="202.0" prefHeight="25.0" prefWidth="236.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="210.0" />
+                                    <JFXButton fx:id="addUserBtn" layoutX="168.0" layoutY="264.0" onAction="#addUserBtnOnAction" prefHeight="25.0" prefWidth="96.0" style="-fx-background-color: #708090;" text="Ajouter" textFill="WHITE" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="30.0">
                                        <font>
                                           <Font size="13.0" />
                                        </font>
