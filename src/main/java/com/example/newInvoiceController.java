@@ -1,5 +1,6 @@
 package com.example;
 
+import java.io.File;
 import java.lang.ref.Cleaner.Cleanable;
 import java.net.URL;
 import java.sql.Date;
@@ -29,19 +30,33 @@ import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextFormatter;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import javafx.util.Callback;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
 
 public class newInvoiceController implements Initializable{
+
+    @FXML private AnchorPane mainAnchorPane;
 
     @FXML private JFXTextField barcodeField ;
     @FXML private JFXTextField nameField ;
@@ -57,9 +72,10 @@ public class newInvoiceController implements Initializable{
 	@FXML private TableColumn <Commande, Double> price;
 	@FXML private TableColumn <Commande, Integer> quantity;
     @FXML private TableColumn <Commande, Double> subTotal;
-	@FXML private TableColumn <String, String> leftQt;
+	@FXML private TableColumn <Commande, String> invoicesActions;
 
-	@FXML private TableColumn<String, String> invoicesActions;
+	//@FXML private TableColumn<String, String> invoicesActions;
+
     @FXML private Label totalLabel;
 
     @FXML private JFXButton validBtn;
@@ -75,6 +91,7 @@ public class newInvoiceController implements Initializable{
         observableList = null;
         totalLabel.setText("0.0");
         initClientChoiceBox();
+        initActionIcons();
         initTableView();
         /*  
         barcodeField.setOnKeyPressed(new EventHandler<KeyEvent>(){
@@ -140,6 +157,12 @@ public class newInvoiceController implements Initializable{
             }
         });
         
+        clientChoiceBox.setOnAction(event -> {
+            if(clientChoiceBox.getValue()!= null) {
+                client_msg_label.setText("");  
+            }
+        });
+
         /* 
         observableList.addListener(new ListChangeListener<Commande>(){
             @Override
@@ -177,6 +200,45 @@ public class newInvoiceController implements Initializable{
 		quantity.setCellValueFactory(new PropertyValueFactory<Commande,Integer>("quantity"));
         subTotal.setCellValueFactory(new PropertyValueFactory<Commande,Double>("total"));
 
+    }
+
+    private void initActionIcons(){
+    Callback<TableColumn<Commande, String>, TableCell<Commande, String>> cellFoctory = (TableColumn<Commande, String> param) -> {
+        final TableCell<Commande, String> cell = new TableCell<Commande, String>() {
+            @Override
+            public void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+
+                    ImageView iconDelete = new ImageView();
+                    File FileDeleteIcon =  new File("src/main/resources/com/example/img/bin.png");
+                    Image deleteImg = new Image(FileDeleteIcon.toURI().toString(),25,25, false,true);
+
+                    iconDelete.setImage(deleteImg);		
+                    iconDelete.setStyle(" -fx-cursor: hand ; -fx-fill:#C90202;");
+                    iconDelete.setOnMouseClicked((MouseEvent event) -> {       
+                        Commande commande = invoiceTableView.getSelectionModel().getSelectedItem();
+                        commandes.remove(commande);
+                        System.out.println("deleted : true");
+                        fillTableView();
+
+                    });
+
+                    HBox managebtn = new HBox(iconDelete); // iconEdit, iconPdf 
+                    managebtn.setStyle("-fx-alignment:center");
+                    HBox.setMargin(iconDelete, new Insets(2, 2, 0, 3));
+                    setGraphic(managebtn);
+                    setText(null);
+                }
+            }
+        };
+        return cell;
+    };
+    invoicesActions.setCellFactory(cellFoctory);
+    invoiceTableView.setItems(observableList);
     }
 
     public void getItemByBarcode(String barcode){
@@ -307,7 +369,7 @@ public class newInvoiceController implements Initializable{
     
     }
 
-    // set up the client + test if cmd tale is empty (or make a listener to the table )
+    // set up the client + test if cmd table is empty (or make a listener to the table )
     public void validBtnOnAction(){
         Client client = new Client();
         client = (Client) clientChoiceBox.getValue();
@@ -329,9 +391,14 @@ public class newInvoiceController implements Initializable{
                     cmdArticle.setQuantity(cmdArticle.getQuantity() - commande.getQuantity());
                     dataManager.EditArticle(cmdArticle);
                 }
-            }    
+            } 
+            displayMessage(AlertType.INFORMATION, "Succes", "Opération effectuée avec succès.");
+            mainAnchorPane.getScene().getWindow().hide();	
+            Stage stage = (Stage) mainAnchorPane.getScene().getWindow();
+            stage.getOnCloseRequest().handle(new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
         }else{
             if(client == null){
+                //displayMessage(AlertType.ERROR, "Echec", "Veuillez sélectionner un client");
                 client_msg_label.setText("Veuillez sélectionner un client");
             }else{
                 error_msg_label.setText("Veuillez insérer au moins une commande");
@@ -339,5 +406,11 @@ public class newInvoiceController implements Initializable{
         }
 
     }
-
+    public void displayMessage(AlertType alertType, String title, String msg) {
+		Alert alert = new Alert(alertType);
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(msg);
+		alert.showAndWait();
+	}
 }

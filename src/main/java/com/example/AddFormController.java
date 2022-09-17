@@ -164,7 +164,6 @@ public class AddFormController implements Initializable{
 				stage.getOnCloseRequest().handle(new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST));
 			}else {
 				displayMessage(AlertType.ERROR, "Echec", "Opération echouée !\nVeuillez vérifier que les informations fournies sont correctes et non pas dupliquées.");
-				//displayMessage("echec","Echec d'ajout !\nVeuillez vérifier que les informations fournies sont \ncorrectes et non pas dupliquées.");
 			}
 		}else {
 			addListeners();

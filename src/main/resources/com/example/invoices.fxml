@@ -3,7 +3,6 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Pagination?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
@@ -75,7 +74,7 @@
                                        </JFXTextField>
                                        <Label layoutX="545.0" layoutY="256.0" text="Total" AnchorPane.bottomAnchor="18.0" AnchorPane.rightAnchor="111.0" />
                                        <JFXTextField fx:id="invoicesItemsTotal" editable="false" focusColor="BLACK" layoutX="534.0" layoutY="252.0" prefHeight="25.0" prefWidth="89.0" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
-                                       <TableView fx:id="invoicesTableView" layoutX="7.0" layoutY="66.0" prefHeight="336.0" prefWidth="610.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="66.0">
+                                       <TableView fx:id="invoicesTableView" layoutX="7.0" layoutY="66.0" prefHeight="336.0" prefWidth="610.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="66.0">
                                           <columns>
                                              <TableColumn fx:id="invoiceNumber" prefWidth="75.0" text="N°" />
                                              <TableColumn fx:id="invoiceDate" prefWidth="75.0" text="Date" />
@@ -88,7 +87,6 @@
                                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                           </columnResizePolicy>
                                        </TableView>
-                                       <Pagination fx:id="invoicesPagination" layoutX="7.0" layoutY="66.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="336.0" prefWidth="610.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="66.0" />
                                  </children>
                               </AnchorPane>
                            </children>

@@ -25,13 +25,17 @@
           <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
         </rowConstraints>
          <children>
-            <TableView fx:id="invoiceTableView" prefHeight="270.0" prefWidth="795.0" GridPane.vgrow="ALWAYS">
+            <TableView fx:id="invoiceTableView" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
               <columns>
-                  <TableColumn fx:id="articleName" prefWidth="313.0" text="Article " />
-                <TableColumn fx:id="quantity" minWidth="0.0" prefWidth="106.0" text="Quantité" />
-                  <TableColumn fx:id="price" minWidth="0.0" prefWidth="179.0" text="Prix" />
-                  <TableColumn fx:id="subTotal" prefWidth="196.0" text="Total" />
+                  <TableColumn fx:id="articleName" prefWidth="259.0" text="Article " />
+                <TableColumn fx:id="quantity" prefWidth="62.0" text="Quantité" />
+                  <TableColumn fx:id="price" minWidth="0.0" prefWidth="100.0" text="Prix" />
+                  <TableColumn fx:id="subTotal" prefWidth="200.0" text="Total" />
+                  <TableColumn fx:id="invoicesActions" prefWidth="100.0" text="Actions" />
               </columns>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
             </TableView>
          </children>
       </GridPane>
@@ -63,12 +67,12 @@
       </JFXButton>
       <ImageView fx:id="plusBtn" fitHeight="15.0" fitWidth="15.0" layoutX="405.0" layoutY="105.0" onMouseClicked="#increaseQuantity" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@img/plus.png" />
+            <Image url="@img/up.png" />
          </image>
       </ImageView>
       <ImageView fx:id="minusBtn" fitHeight="15.0" fitWidth="15.0" layoutX="405.0" layoutY="119.0" onMouseClicked="#decreaseQuantity" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@img/minus.png" />
+            <Image url="@img/down.png" />
          </image>
       </ImageView>
       <Label fx:id="error_msg_label" layoutX="20.0" layoutY="140.0" prefHeight="17.0" prefWidth="400.0" textFill="#d70909" />

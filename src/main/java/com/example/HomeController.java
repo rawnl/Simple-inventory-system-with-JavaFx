@@ -117,7 +117,7 @@ public class HomeController implements Initializable{
 		initActionIcons();
 		UpdateTableView();
 		updateTodaysTotal();
-		pagination.setPageFactory(this::createPage);
+		//pagination.setPageFactory(this::createPage);
 		currentTab.setText("Liste des articles");
 	}
  
@@ -365,8 +365,8 @@ public class HomeController implements Initializable{
 		obsList = FXCollections.observableList(articles);
         tableView.setItems(obsList);
 		total.setText(((Integer)(tableView.getItems().size())).toString());
-		int maxPages = Integer.parseInt(total.getText()) / rowsPerPage;
-		pagination.setPageCount(maxPages);
+		//int maxPages = Integer.parseInt(total.getText()) / rowsPerPage;
+		//pagination.setPageCount(maxPages);
 	}
    
 	public void setupUserInfo(User user) {
@@ -441,28 +441,7 @@ public class HomeController implements Initializable{
 		String totalDuJour =  Double.toString(dataManager.getTodaysTotal());
 		todaysTotal.setText(totalDuJour);
 	}
-	// update total
-    
-	/* 
-	@FXML
-	public void toDashboard() throws IOException {
-		currentTab.setText("Liste des articles");
-		dashboardPane.toFront();
-		dashboardPane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY,Insets.EMPTY)));
-		System.out.println("to dasshboard");
-	}
-	*/
-   
-	/* 
-	@FXML
-	public void toFactures() throws IOException {
-		currentTab.setText("Liste des factures");
-		facturesPane.toFront();
-		facturesPane.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY,Insets.EMPTY)));
-		System.out.println("to factures");
-	}
-	*/
-	
+		
 	@FXML
 	public void toFactures(ActionEvent event) throws IOException {
 		

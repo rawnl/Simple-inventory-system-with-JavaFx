@@ -64,7 +64,7 @@ public class FacturesController implements Initializable{
     @FXML private TextField invoicesItemsTotal;
 
     @FXML private Pagination invoicesPagination;
-	private final static int rowsPerPage = 11 ;
+	//private final static int rowsPerPage = 11 ;
 
     @FXML private Button invoicesBtn;
 	@FXML private ImageView invoicesIcon;
@@ -95,10 +95,7 @@ public class FacturesController implements Initializable{
 		initTableView();
 		initActionIcons();
 		UpdateInvoicesTableView();
-		//invoicesPagination.setPageFactory(this::createPage);
 		currentTab.setText("Liste des factures");
-
-		
     }
 
 	public void initIcons() {
@@ -190,17 +187,15 @@ public class FacturesController implements Initializable{
 
     }
 
-    // To test after fixing addArticle
 	public void UpdateInvoicesTableView() {
-		DataManager dataManager = new DataManager();
 
+		DataManager dataManager = new DataManager();
 		ArrayList<Facture> factures = new ArrayList<Facture>();
 		factures = dataManager.getFactures();
+
 		invoicesObsList = FXCollections.observableList(factures);
         invoicesTableView.setItems(invoicesObsList);
 		invoicesItemsTotal.setText(((Integer)(invoicesTableView.getItems().size())).toString());
-		int invoicesMaxPages = Integer.parseInt(invoicesItemsTotal.getText()) / rowsPerPage;
-        invoicesPagination.setPageCount(invoicesMaxPages);
 
 	}
 
@@ -275,13 +270,6 @@ public class FacturesController implements Initializable{
 
 	}
 	
-	/* 
-	@FXML
-	public void toFactures() throws IOException { 
-        AnchorPane statPane = FXMLLoader.load(getClass().getResource("invoices.fxml"));
-		mainAnchorPane.getChildren().setAll(statPane);	    
-	}*/
-
     public void displayNewInvoice() throws IOException{
 		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("newInvoice.fxml"));
